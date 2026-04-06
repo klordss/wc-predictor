@@ -74,20 +74,18 @@ function BracketMatchCard({
   size?: 'sm' | 'md'
 }) {
   const { h, a } = bracketInputValues(row, koScores, koDrafts)
-  const meta =
-    'fifaMatch' in row && row.fifaMatch != null
-      ? `${row.fifaMatch}`
-      : row.round === 'Round of 16'
-        ? `16·${row.match}`
-        : row.round === 'Quarter-finals'
-          ? `QF${row.match}`
-          : row.round === 'Semi-finals'
-            ? `SF${row.match}`
-            : row.round === 'Final'
-              ? 'F'
-              : row.round === 'Third place'
-                ? '3rd'
-                : `${row.match}`
+  const meta = (() => {
+    if ('fifaMatch' in row && row.fifaMatch != null) return `${row.fifaMatch}`
+    if ('round' in row) {
+      const r = row.round
+      if (r === 'Round of 16') return `16·${row.match}`
+      if (r === 'Quarter-finals') return `QF${row.match}`
+      if (r === 'Semi-finals') return `SF${row.match}`
+      if (r === 'Final') return 'F'
+      if (r === 'Third place') return '3rd'
+    }
+    return `${row.match}`
+  })()
 
   return (
     <div className={`ko-bracket-card ko-bracket-card--${size}`}>

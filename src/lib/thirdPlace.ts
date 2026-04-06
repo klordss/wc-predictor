@@ -220,9 +220,15 @@ export function getThirdPlaceTableRows(
   }
 
   complete.sort((a, b) => {
-    if (b.pts !== a.pts) return b.pts - a.pts
-    if (b.gd !== a.gd) return b.gd - a.gd
-    if (b.gf !== a.gf) return b.gf - a.gf
+    const ap = a.pts ?? 0
+    const bp = b.pts ?? 0
+    const ag = a.gd ?? 0
+    const bg = b.gd ?? 0
+    const af = a.gf ?? 0
+    const bf = b.gf ?? 0
+    if (bp !== ap) return bp - ap
+    if (bg !== ag) return bg - ag
+    if (bf !== af) return bf - af
     return a.sortKey.localeCompare(b.sortKey)
   })
 
