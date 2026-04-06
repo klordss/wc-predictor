@@ -1,0 +1,67 @@
+:root {
+  /* World Cup predictor — fixed dark theme (design reference) */
+  --wc-bg-deep: #0a0c10;
+  --wc-bg-mid: #12151c;
+  --wc-surface: rgba(28, 32, 42, 0.72);
+  --wc-surface-solid: #1c202a;
+  --wc-border: rgba(255, 255, 255, 0.08);
+  --wc-border-strong: rgba(255, 255, 255, 0.14);
+  --wc-text: #9aa3b2;
+  --wc-text-bright: #f1f5f9;
+  --wc-muted: #64748b;
+  --wc-green: #22c55e;
+  --wc-green-dim: rgba(34, 197, 94, 0.14);
+  --wc-green-glow: rgba(34, 197, 94, 0.45);
+  --wc-green-dark: #15803d;
+  --wc-gold: #eab308;
+  --wc-gold-dim: rgba(234, 179, 8, 0.18);
+  --wc-input-bg: #0d0f14;
+  --wc-input-inner: inset 0 2px 6px rgba(0, 0, 0, 0.45);
+
+  --text: var(--wc-text);
+  --text-h: var(--wc-text-bright);
+  --bg: var(--wc-bg-deep);
+  --border: var(--wc-border-strong);
+  --code-bg: var(--wc-surface-solid);
+  --accent: var(--wc-green);
+  --accent-bg: var(--wc-green-dim);
+  --accent-border: var(--wc-green);
+  --social-bg: rgba(255, 255, 255, 0.04);
+
+  --sans: 'Segoe UI', system-ui, -apple-system, Roboto, sans-serif;
+  --heading: var(--sans);
+
+  font: 16px/145% var(--sans);
+  letter-spacing: 0.01em;
+  color-scheme: dark;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  min-height: 100svh;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  background:
+    radial-gradient(ellipse 120% 80% at 50% -20%, rgba(34, 197, 94, 0.12), transparent 55%),
+    radial-gradient(ellipse 80% 50% at 100% 0%, rgba(34, 197, 94, 0.06), transparent 45%),
+    linear-gradient(180deg, var(--wc-bg-mid) 0%, var(--wc-bg-deep) 55%, #060708 100%);
+}
+
+h1,
+h2 {
+  font-family: var(--heading);
+  font-weight: 600;
+  color: var(--text-h);
+}

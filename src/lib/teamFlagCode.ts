@@ -1,0 +1,58 @@
+/**
+ * ISO 3166-1 alpha-2 codes for flag-icons (class `fi fi-xx` or `fi fi-gb-sct`).
+ * @see https://github.com/lipis/flag-icons
+ */
+export const TEAM_FLAG_CODE: Record<string, string> = {
+  Mexico: 'mx',
+  'South Korea': 'kr',
+  'South Africa': 'za',
+  'Czech Republic': 'cz',
+  Canada: 'ca',
+  Switzerland: 'ch',
+  Qatar: 'qa',
+  'Bosnia and Herzegovina': 'ba',
+  Brazil: 'br',
+  Morocco: 'ma',
+  Scotland: 'gb-sct',
+  Haiti: 'ht',
+  'United States': 'us',
+  Australia: 'au',
+  Paraguay: 'py',
+  Turkey: 'tr',
+  Germany: 'de',
+  Ecuador: 'ec',
+  'Ivory Coast': 'ci',
+  Curaçao: 'cw',
+  Netherlands: 'nl',
+  Japan: 'jp',
+  Tunisia: 'tn',
+  Sweden: 'se',
+  Belgium: 'be',
+  Egypt: 'eg',
+  Iran: 'ir',
+  'New Zealand': 'nz',
+  Spain: 'es',
+  Uruguay: 'uy',
+  'Saudi Arabia': 'sa',
+  'Cape Verde': 'cv',
+  France: 'fr',
+  Senegal: 'sn',
+  Norway: 'no',
+  Iraq: 'iq',
+  Argentina: 'ar',
+  Austria: 'at',
+  Algeria: 'dz',
+  Jordan: 'jo',
+  Portugal: 'pt',
+  Colombia: 'co',
+  Uzbekistan: 'uz',
+  'DR Congo': 'cd',
+  England: 'gb-eng',
+  Croatia: 'hr',
+  Ghana: 'gh',
+  Panama: 'pa',
+}
+
+export function teamFlagCode(team: string): string {
+  return TEAM_FLAG_CODE[team] ?? 'xx'
+}

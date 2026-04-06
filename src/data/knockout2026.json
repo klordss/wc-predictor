@@ -1,0 +1,54 @@
+{
+  "tournament": "FIFA World Cup",
+  "year": 2026,
+  "stage": "Knockout",
+  "format": "32 teams single elimination",
+  "roundOf32": [
+    { "match": 1, "fifaMatch": 73, "teamA": "Group A 2nd", "teamB": "Group B 2nd" },
+    { "match": 2, "fifaMatch": 74, "teamA": "Group E 1st", "teamB": "3rd Group A/B/C/D/F" },
+    { "match": 3, "fifaMatch": 75, "teamA": "Group F 1st", "teamB": "Group C 2nd" },
+    { "match": 4, "fifaMatch": 76, "teamA": "Group C 1st", "teamB": "Group F 2nd" },
+    { "match": 5, "fifaMatch": 77, "teamA": "Group I 1st", "teamB": "3rd Group C/D/F/G/H" },
+    { "match": 6, "fifaMatch": 78, "teamA": "Group E 2nd", "teamB": "Group I 2nd" },
+    { "match": 7, "fifaMatch": 79, "teamA": "Group A 1st", "teamB": "3rd Group C/E/F/H/I" },
+    { "match": 8, "fifaMatch": 80, "teamA": "Group L 1st", "teamB": "3rd Group E/H/I/J/K" },
+    { "match": 9, "fifaMatch": 81, "teamA": "Group D 1st", "teamB": "3rd Group B/E/F/I/J" },
+    { "match": 10, "fifaMatch": 82, "teamA": "Group G 1st", "teamB": "3rd Group A/E/H/I/J" },
+    { "match": 11, "fifaMatch": 83, "teamA": "Group K 2nd", "teamB": "Group L 2nd" },
+    { "match": 12, "fifaMatch": 84, "teamA": "Group H 1st", "teamB": "Group J 2nd" },
+    { "match": 13, "fifaMatch": 85, "teamA": "Group B 1st", "teamB": "3rd Group E/F/G/I/J" },
+    { "match": 14, "fifaMatch": 86, "teamA": "Group J 1st", "teamB": "Group H 2nd" },
+    { "match": 15, "fifaMatch": 87, "teamA": "Group K 1st", "teamB": "3rd Group D/E/I/J/L" },
+    { "match": 16, "fifaMatch": 88, "teamA": "Group D 2nd", "teamB": "Group G 2nd" }
+  ],
+  "roundOf16": [
+    { "match": 1, "teamA": "W1", "teamB": "W3" },
+    { "match": 2, "teamA": "W2", "teamB": "W5" },
+    { "match": 3, "teamA": "W4", "teamB": "W6" },
+    { "match": 4, "teamA": "W7", "teamB": "W8" },
+    { "match": 5, "teamA": "W11", "teamB": "W12" },
+    { "match": 6, "teamA": "W9", "teamB": "W10" },
+    { "match": 7, "teamA": "W14", "teamB": "W16" },
+    { "match": 8, "teamA": "W13", "teamB": "W15" }
+  ],
+  "quarterFinals": [
+    { "match": 1, "teamA": "R16W2", "teamB": "R16W1" },
+    { "match": 2, "teamA": "R16W5", "teamB": "R16W6" },
+    { "match": 3, "teamA": "R16W3", "teamB": "R16W4" },
+    { "match": 4, "teamA": "R16W7", "teamB": "R16W8" }
+  ],
+  "semiFinals": [
+    { "match": 1, "teamA": "QF1", "teamB": "QF2" },
+    { "match": 2, "teamA": "QF3", "teamB": "QF4" }
+  ],
+  "final": {
+    "match": 1,
+    "teamA": "SF1 Winner",
+    "teamB": "SF2 Winner"
+  },
+  "thirdPlace": {
+    "match": 1,
+    "teamA": "SF1 Loser",
+    "teamB": "SF2 Loser"
+  }
+}
