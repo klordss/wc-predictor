@@ -1,6 +1,9 @@
 export type ScheduledPair = {
   home: string
   away: string
+  /** ISO date YYYY-MM-DD from the official schedule */
+  date?: string
+  venue?: string
 }
 
 export type MatchdayBlock = {
@@ -19,6 +22,8 @@ export type Match = {
   home: string
   away: string
   matchday: number
+  date?: string
+  venue?: string
 }
 
 export type MatchScore = {

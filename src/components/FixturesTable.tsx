@@ -9,6 +9,49 @@ type Props = {
   onScoreChange: (matchId: string, home: string, away: string) => void
 }
 
+function atNoonUtc(ymd: string): Date {
+  return new Date(`${ymd}T12:00:00Z`)
+}
+
+/** One matchday line: single date with weekday, or a compact range across days. */
+function formatMatchdayDateLine(matches: Match[]): string | null {
+  const dates = [...new Set(matches.map((m) => m.date).filter((d): d is string => Boolean(d)))].sort()
+  if (dates.length === 0) return null
+  if (dates.length === 1) {
+    const d = atNoonUtc(dates[0])
+    return d.toLocaleDateString(undefined, {
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+    })
+  }
+  const a = atNoonUtc(dates[0])
+  const b = atNoonUtc(dates[dates.length - 1])
+  const y = a.getUTCFullYear()
+  const sameYear = y === b.getUTCFullYear()
+  const sameMonth = sameYear && a.getUTCMonth() === b.getUTCMonth()
+  const optsDay: Intl.DateTimeFormatOptions = { day: 'numeric' }
+  const optsMon: Intl.DateTimeFormatOptions = { month: 'short' }
+  const optsWd: Intl.DateTimeFormatOptions = { weekday: 'short' }
+  const optsYear: Intl.DateTimeFormatOptions = { year: 'numeric' }
+  if (sameMonth && sameYear) {
+    const mon = a.toLocaleDateString(undefined, { month: 'long' })
+    const d1 = a.toLocaleDateString(undefined, { day: 'numeric' })
+    const d2 = b.toLocaleDateString(undefined, { day: 'numeric' })
+    return `${d1}–${d2} ${mon} ${y}`
+  }
+  const left = a.toLocaleDateString(undefined, { ...optsWd, ...optsDay, ...optsMon, ...(sameYear ? {} : optsYear) })
+  const right = b.toLocaleDateString(undefined, { ...optsWd, ...optsDay, ...optsMon, ...optsYear })
+  return `${left} – ${right}`
+}
+
+/** Short date on the venue strip when the matchday spans more than one calendar day. */
+function formatMatchChipDate(ymd: string): string {
+  const d = atNoonUtc(ymd)
+  return d.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })
+}
+
 function buildDrafts(matches: Match[], scores: ScoresMap): Record<string, { home: string; away: string }> {
   const out: Record<string, { home: string; away: string }> = {}
   for (const m of matches) {
@@ -75,11 +118,15 @@ export function FixturesTable({ matches, scores, onScoreChange }: Props) {
     })
   }, [scores, matchesInDisplayOrder])
 
-  const renderRow = (m: Match) => {
+  const renderRow = (m: Match, matchdayMatches: Match[]) => {
     const d = drafts[m.id] ?? { home: '', away: '' }
     const isActiveRow =
       focusedMatchId === m.id || (focusedMatchId === null && m.id === firstIncompleteId)
     const isHighlight = isActiveRow
+    const distinctDates = new Set(
+      matchdayMatches.map((x) => x.date).filter((x): x is string => Boolean(x)),
+    )
+    const showChipDate = Boolean(m.date) && distinctDates.size > 1
 
     return (
       <div
@@ -93,6 +140,19 @@ export function FixturesTable({ matches, scores, onScoreChange }: Props) {
           }
         }}
       >
+        {m.venue || showChipDate ? (
+          <div
+            className={`fixture-row__venue${showChipDate && !m.venue ? ' fixture-row__venue--dateonly' : ''}`}
+            aria-label={m.venue ? `Venue: ${m.venue}` : undefined}
+          >
+            {m.venue ? <span className="fixture-row__venue-stadium">{m.venue}</span> : null}
+            {showChipDate && m.date ? (
+              <time className="fixture-row__venue-date" dateTime={m.date}>
+                {formatMatchChipDate(m.date)}
+              </time>
+            ) : null}
+          </div>
+        ) : null}
         <div className="fixture-row__main">
           <div className="fixture-row__team fixture-row__team--home">
             <TeamWithFlag name={m.home} />
@@ -148,20 +208,26 @@ export function FixturesTable({ matches, scores, onScoreChange }: Props) {
 
   return (
     <div className="fixtures-by-matchday">
-      {matchdaysOrdered.map(([day, list]) => (
-        <section
-          key={day}
-          className="fixture-matchday-block"
-          aria-labelledby={`matchday-${day}-heading`}
-        >
-          <h3 id={`matchday-${day}-heading`} className="fixture-matchday">
-            Matchday {day}
-          </h3>
-          <div className="fixtures-list" role="list">
-            {list.map((m) => renderRow(m))}
-          </div>
-        </section>
-      ))}
+      {matchdaysOrdered.map(([day, list]) => {
+        const dateLine = formatMatchdayDateLine(list)
+        return (
+          <section
+            key={day}
+            className="fixture-matchday-block"
+            aria-labelledby={`matchday-${day}-heading`}
+          >
+            <header className="fixture-matchday__header">
+              <h3 id={`matchday-${day}-heading`} className="fixture-matchday">
+                Matchday {day}
+              </h3>
+              {dateLine ? <p className="fixture-matchday__dates">{dateLine}</p> : null}
+            </header>
+            <div className="fixtures-list" role="list">
+              {list.map((m) => renderRow(m, list))}
+            </div>
+          </section>
+        )
+      })}
     </div>
   )
 }

@@ -18,6 +18,8 @@ export function generateFixtures(groups: GroupEntry[]): Match[] {
           home: pair.home,
           away: pair.away,
           matchday: md.matchday,
+          ...(pair.date !== undefined ? { date: pair.date } : {}),
+          ...(pair.venue !== undefined ? { venue: pair.venue } : {}),
         })
       }
     }

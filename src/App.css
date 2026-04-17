@@ -298,13 +298,26 @@
   margin: 0;
 }
 
+.fixture-matchday__header {
+  margin-bottom: 0.65rem;
+}
+
 .fixture-matchday {
-  margin: 0 0 0.5rem;
+  margin: 0;
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--wc-muted);
+}
+
+.fixture-matchday__dates {
+  margin: 0.35rem 0 0;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--wc-text);
+  letter-spacing: 0.01em;
 }
 
 .fixtures-list {
@@ -315,16 +328,17 @@
 
 .fixture-row {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.65rem 0.75rem;
-  padding: 0.75rem 0.85rem;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  padding: 0;
   border-radius: 14px;
   border: 1px solid var(--wc-border);
   background: rgba(0, 0, 0, 0.2);
   box-shadow: var(--wc-input-inner);
   min-width: 0;
   max-width: 100%;
+  overflow: hidden;
 }
 
 .fixture-row--highlight {
@@ -335,6 +349,45 @@
     0 0 0 1px rgba(34, 197, 94, 0.2);
 }
 
+.fixture-row--highlight .fixture-row__venue {
+  border-bottom-color: rgba(34, 197, 94, 0.28);
+  background: rgba(34, 197, 94, 0.06);
+}
+
+.fixture-row__venue {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.65rem;
+  padding: 0.5rem 0.85rem 0.55rem;
+  border-bottom: 1px solid var(--wc-border);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.fixture-row__venue--dateonly {
+  justify-content: flex-end;
+}
+
+.fixture-row__venue-stadium {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  line-height: 1.45;
+  color: var(--wc-muted);
+}
+
+.fixture-row__venue-date {
+  flex-shrink: 0;
+  font-size: 0.68rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--wc-text);
+  white-space: nowrap;
+}
+
 .fixture-row__main {
   display: flex;
   flex: 1;
@@ -342,6 +395,7 @@
   align-items: center;
   gap: 0.5rem 0.75rem;
   min-width: 0;
+  padding: 0.75rem 0.85rem;
 }
 
 .fixture-row__team {
@@ -401,11 +455,6 @@
 }
 
 @media (max-width: 560px) {
-  .fixture-row {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
   .fixture-row__main {
     flex-direction: column;
     width: 100%;

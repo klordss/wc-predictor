@@ -12,11 +12,15 @@
           "matches": [
             {
               "home": "Mexico",
-              "away": "South Korea"
+              "away": "South Africa",
+              "date": "2026-06-11",
+              "venue": "Mexico City Stadium"
             },
             {
-              "home": "South Africa",
-              "away": "Czech Republic"
+              "home": "Korea Republic",
+              "away": "Czechia",
+              "date": "2026-06-11",
+              "venue": "Estadio Guadalajara"
             }
           ]
         },
@@ -24,12 +28,16 @@
           "matchday": 2,
           "matches": [
             {
-              "home": "Mexico",
-              "away": "South Africa"
+              "home": "Czechia",
+              "away": "South Africa",
+              "date": "2026-06-18",
+              "venue": "Atlanta Stadium"
             },
             {
-              "home": "South Korea",
-              "away": "Czech Republic"
+              "home": "Mexico",
+              "away": "Korea Republic",
+              "date": "2026-06-18",
+              "venue": "Estadio Guadalajara"
             }
           ]
         },
@@ -37,12 +45,16 @@
           "matchday": 3,
           "matches": [
             {
-              "home": "Mexico",
-              "away": "Czech Republic"
+              "home": "Czechia",
+              "away": "Mexico",
+              "date": "2026-06-24",
+              "venue": "Mexico City Stadium"
             },
             {
-              "home": "South Korea",
-              "away": "South Africa"
+              "home": "South Africa",
+              "away": "Korea Republic",
+              "date": "2026-06-24",
+              "venue": "Estadio Monterrey"
             }
           ]
         }
@@ -56,11 +68,15 @@
           "matches": [
             {
               "home": "Canada",
-              "away": "Switzerland"
+              "away": "Bosnia and Herzegovina",
+              "date": "2026-06-12",
+              "venue": "Toronto Stadium"
             },
             {
               "home": "Qatar",
-              "away": "Bosnia and Herzegovina"
+              "away": "Switzerland",
+              "date": "2026-06-13",
+              "venue": "San Francisco Bay Area Stadium"
             }
           ]
         },
@@ -68,12 +84,16 @@
           "matchday": 2,
           "matches": [
             {
-              "home": "Canada",
-              "away": "Qatar"
+              "home": "Switzerland",
+              "away": "Bosnia and Herzegovina",
+              "date": "2026-06-18",
+              "venue": "Los Angeles Stadium"
             },
             {
-              "home": "Switzerland",
-              "away": "Bosnia and Herzegovina"
+              "home": "Canada",
+              "away": "Qatar",
+              "date": "2026-06-18",
+              "venue": "BC Place Vancouver"
             }
           ]
         },
@@ -81,12 +101,16 @@
           "matchday": 3,
           "matches": [
             {
-              "home": "Canada",
-              "away": "Bosnia and Herzegovina"
+              "home": "Switzerland",
+              "away": "Canada",
+              "date": "2026-06-24",
+              "venue": "BC Place Vancouver"
             },
             {
-              "home": "Switzerland",
-              "away": "Qatar"
+              "home": "Bosnia and Herzegovina",
+              "away": "Qatar",
+              "date": "2026-06-24",
+              "venue": "Seattle Stadium"
             }
           ]
         }
@@ -99,12 +123,16 @@
           "matchday": 1,
           "matches": [
             {
-              "home": "Brazil",
-              "away": "Morocco"
+              "home": "Haiti",
+              "away": "Scotland",
+              "date": "2026-06-13",
+              "venue": "Boston Stadium"
             },
             {
-              "home": "Scotland",
-              "away": "Haiti"
+              "home": "Brazil",
+              "away": "Morocco",
+              "date": "2026-06-13",
+              "venue": "New York New Jersey Stadium"
             }
           ]
         },
@@ -113,11 +141,15 @@
           "matches": [
             {
               "home": "Brazil",
-              "away": "Scotland"
+              "away": "Haiti",
+              "date": "2026-06-19",
+              "venue": "Philadelphia Stadium"
             },
             {
-              "home": "Morocco",
-              "away": "Haiti"
+              "home": "Scotland",
+              "away": "Morocco",
+              "date": "2026-06-19",
+              "venue": "Boston Stadium"
             }
           ]
         },
@@ -125,12 +157,16 @@
           "matchday": 3,
           "matches": [
             {
-              "home": "Brazil",
-              "away": "Haiti"
+              "home": "Scotland",
+              "away": "Brazil",
+              "date": "2026-06-24",
+              "venue": "Miami Stadium"
             },
             {
               "home": "Morocco",
-              "away": "Scotland"
+              "away": "Haiti",
+              "date": "2026-06-24",
+              "venue": "Atlanta Stadium"
             }
           ]
         }
@@ -143,12 +179,16 @@
           "matchday": 1,
           "matches": [
             {
-              "home": "United States",
-              "away": "Australia"
+              "home": "USA",
+              "away": "Paraguay",
+              "date": "2026-06-12",
+              "venue": "Los Angeles Stadium"
             },
             {
-              "home": "Paraguay",
-              "away": "Turkey"
+              "home": "Australia",
+              "away": "Türkiye",
+              "date": "2026-06-13",
+              "venue": "BC Place Vancouver"
             }
           ]
         },
@@ -156,12 +196,16 @@
           "matchday": 2,
           "matches": [
             {
-              "home": "United States",
-              "away": "Paraguay"
+              "home": "Türkiye",
+              "away": "Paraguay",
+              "date": "2026-06-19",
+              "venue": "San Francisco Bay Area Stadium"
             },
             {
-              "home": "Australia",
-              "away": "Turkey"
+              "home": "USA",
+              "away": "Australia",
+              "date": "2026-06-19",
+              "venue": "Seattle Stadium"
             }
           ]
         },
@@ -169,12 +213,16 @@
           "matchday": 3,
           "matches": [
             {
-              "home": "United States",
-              "away": "Turkey"
+              "home": "Türkiye",
+              "away": "USA",
+              "date": "2026-06-25",
+              "venue": "Los Angeles Stadium"
             },
             {
-              "home": "Australia",
-              "away": "Paraguay"
+              "home": "Paraguay",
+              "away": "Australia",
+              "date": "2026-06-25",
+              "venue": "San Francisco Bay Area Stadium"
             }
           ]
         }
@@ -187,12 +235,16 @@
           "matchday": 1,
           "matches": [
             {
-              "home": "Germany",
-              "away": "Ecuador"
+              "home": "Côte d'Ivoire",
+              "away": "Ecuador",
+              "date": "2026-06-14",
+              "venue": "Philadelphia Stadium"
             },
             {
-              "home": "Ivory Coast",
-              "away": "Curaçao"
+              "home": "Germany",
+              "away": "Curaçao",
+              "date": "2026-06-14",
+              "venue": "Houston Stadium"
             }
           ]
         },
@@ -201,11 +253,15 @@
           "matches": [
             {
               "home": "Germany",
-              "away": "Ivory Coast"
+              "away": "Côte d'Ivoire",
+              "date": "2026-06-20",
+              "venue": "Toronto Stadium"
             },
             {
               "home": "Ecuador",
-              "away": "Curaçao"
+              "away": "Curaçao",
+              "date": "2026-06-20",
+              "venue": "Kansas City Stadium"
             }
           ]
         },
@@ -213,12 +269,16 @@
           "matchday": 3,
           "matches": [
             {
-              "home": "Germany",
-              "away": "Curaçao"
+              "home": "Curaçao",
+              "away": "Côte d'Ivoire",
+              "date": "2026-06-25",
+              "venue": "Philadelphia Stadium"
             },
             {
               "home": "Ecuador",
-              "away": "Ivory Coast"
+              "away": "Germany",
+              "date": "2026-06-25",
+              "venue": "New York New Jersey Stadium"
             }
           ]
         }
@@ -232,11 +292,15 @@
           "matches": [
             {
               "home": "Netherlands",
-              "away": "Japan"
+              "away": "Japan",
+              "date": "2026-06-14",
+              "venue": "Dallas Stadium"
             },
             {
-              "home": "Tunisia",
-              "away": "Sweden"
+              "home": "Sweden",
+              "away": "Tunisia",
+              "date": "2026-06-14",
+              "venue": "Estadio Monterrey"
             }
           ]
         },
@@ -245,11 +309,15 @@
           "matches": [
             {
               "home": "Netherlands",
-              "away": "Tunisia"
+              "away": "Sweden",
+              "date": "2026-06-20",
+              "venue": "Houston Stadium"
             },
             {
-              "home": "Japan",
-              "away": "Sweden"
+              "home": "Tunisia",
+              "away": "Japan",
+              "date": "2026-06-20",
+              "venue": "Estadio Monterrey"
             }
           ]
         },
@@ -257,12 +325,16 @@
           "matchday": 3,
           "matches": [
             {
-              "home": "Netherlands",
-              "away": "Sweden"
+              "home": "Japan",
+              "away": "Sweden",
+              "date": "2026-06-25",
+              "venue": "Dallas Stadium"
             },
             {
-              "home": "Japan",
-              "away": "Tunisia"
+              "home": "Tunisia",
+              "away": "Netherlands",
+              "date": "2026-06-25",
+              "venue": "Kansas City Stadium"
             }
           ]
         }
@@ -275,12 +347,16 @@
           "matchday": 1,
           "matches": [
             {
-              "home": "Belgium",
-              "away": "Egypt"
+              "home": "IR Iran",
+              "away": "New Zealand",
+              "date": "2026-06-15",
+              "venue": "Los Angeles Stadium"
             },
             {
-              "home": "Iran",
-              "away": "New Zealand"
+              "home": "Belgium",
+              "away": "Egypt",
+              "date": "2026-06-15",
+              "venue": "Seattle Stadium"
             }
           ]
         },
@@ -289,11 +365,15 @@
           "matches": [
             {
               "home": "Belgium",
-              "away": "Iran"
+              "away": "IR Iran",
+              "date": "2026-06-21",
+              "venue": "Los Angeles Stadium"
             },
             {
-              "home": "Egypt",
-              "away": "New Zealand"
+              "home": "New Zealand",
+              "away": "Egypt",
+              "date": "2026-06-21",
+              "venue": "BC Place Vancouver"
             }
           ]
         },
@@ -301,12 +381,16 @@
           "matchday": 3,
           "matches": [
             {
-              "home": "Belgium",
-              "away": "New Zealand"
+              "home": "New Zealand",
+              "away": "Belgium",
+              "date": "2026-06-26",
+              "venue": "San Francisco Bay Area Stadium"
             },
             {
               "home": "Egypt",
-              "away": "Iran"
+              "away": "IR Iran",
+              "date": "2026-06-26",
+              "venue": "Seattle Stadium"
             }
           ]
         }
@@ -319,12 +403,16 @@
           "matchday": 1,
           "matches": [
             {
-              "home": "Spain",
-              "away": "Uruguay"
+              "home": "Saudi Arabia",
+              "away": "Uruguay",
+              "date": "2026-06-15",
+              "venue": "Miami Stadium"
             },
             {
-              "home": "Saudi Arabia",
-              "away": "Cape Verde"
+              "home": "Spain",
+              "away": "Cabo Verde",
+              "date": "2026-06-15",
+              "venue": "Atlanta Stadium"
             }
           ]
         },
@@ -332,12 +420,16 @@
           "matchday": 2,
           "matches": [
             {
-              "home": "Spain",
-              "away": "Saudi Arabia"
+              "home": "Uruguay",
+              "away": "Cabo Verde",
+              "date": "2026-06-21",
+              "venue": "Miami Stadium"
             },
             {
-              "home": "Uruguay",
-              "away": "Cape Verde"
+              "home": "Spain",
+              "away": "Saudi Arabia",
+              "date": "2026-06-21",
+              "venue": "Atlanta Stadium"
             }
           ]
         },
@@ -345,12 +437,16 @@
           "matchday": 3,
           "matches": [
             {
-              "home": "Spain",
-              "away": "Cape Verde"
+              "home": "Uruguay",
+              "away": "Spain",
+              "date": "2026-06-26",
+              "venue": "Houston Stadium"
             },
             {
-              "home": "Uruguay",
-              "away": "Saudi Arabia"
+              "home": "Cabo Verde",
+              "away": "Saudi Arabia",
+              "date": "2026-06-26",
+              "venue": "Dallas Stadium"
             }
           ]
         }
@@ -364,11 +460,15 @@
           "matches": [
             {
               "home": "France",
-              "away": "Senegal"
+              "away": "Senegal",
+              "date": "2026-06-16",
+              "venue": "New York New Jersey Stadium"
             },
             {
-              "home": "Norway",
-              "away": "Iraq"
+              "home": "Iraq",
+              "away": "Norway",
+              "date": "2026-06-16",
+              "venue": "Boston Stadium"
             }
           ]
         },
@@ -376,12 +476,16 @@
           "matchday": 2,
           "matches": [
             {
-              "home": "France",
-              "away": "Norway"
+              "home": "Norway",
+              "away": "Senegal",
+              "date": "2026-06-22",
+              "venue": "New York New Jersey Stadium"
             },
             {
-              "home": "Senegal",
-              "away": "Iraq"
+              "home": "France",
+              "away": "Iraq",
+              "date": "2026-06-22",
+              "venue": "Philadelphia Stadium"
             }
           ]
         },
@@ -389,12 +493,16 @@
           "matchday": 3,
           "matches": [
             {
-              "home": "France",
-              "away": "Iraq"
+              "home": "Norway",
+              "away": "France",
+              "date": "2026-06-26",
+              "venue": "Boston Stadium"
             },
             {
               "home": "Senegal",
-              "away": "Norway"
+              "away": "Iraq",
+              "date": "2026-06-26",
+              "venue": "Toronto Stadium"
             }
           ]
         }
@@ -408,11 +516,15 @@
           "matches": [
             {
               "home": "Argentina",
-              "away": "Austria"
+              "away": "Algeria",
+              "date": "2026-06-16",
+              "venue": "Kansas City Stadium"
             },
             {
-              "home": "Algeria",
-              "away": "Jordan"
+              "home": "Austria",
+              "away": "Jordan",
+              "date": "2026-06-16",
+              "venue": "San Francisco Bay Area Stadium"
             }
           ]
         },
@@ -421,11 +533,15 @@
           "matches": [
             {
               "home": "Argentina",
-              "away": "Algeria"
+              "away": "Austria",
+              "date": "2026-06-22",
+              "venue": "Dallas Stadium"
             },
             {
-              "home": "Austria",
-              "away": "Jordan"
+              "home": "Jordan",
+              "away": "Algeria",
+              "date": "2026-06-22",
+              "venue": "San Francisco Bay Area Stadium"
             }
           ]
         },
@@ -433,12 +549,16 @@
           "matchday": 3,
           "matches": [
             {
-              "home": "Argentina",
-              "away": "Jordan"
+              "home": "Algeria",
+              "away": "Austria",
+              "date": "2026-06-27",
+              "venue": "Kansas City Stadium"
             },
             {
-              "home": "Austria",
-              "away": "Algeria"
+              "home": "Jordan",
+              "away": "Argentina",
+              "date": "2026-06-27",
+              "venue": "New York New Jersey Stadium"
             }
           ]
         }
@@ -452,11 +572,15 @@
           "matches": [
             {
               "home": "Portugal",
-              "away": "Colombia"
+              "away": "Congo DR",
+              "date": "2026-06-17",
+              "venue": "Houston Stadium"
             },
             {
               "home": "Uzbekistan",
-              "away": "DR Congo"
+              "away": "Colombia",
+              "date": "2026-06-17",
+              "venue": "Mexico City Stadium"
             }
           ]
         },
@@ -465,11 +589,15 @@
           "matches": [
             {
               "home": "Portugal",
-              "away": "Uzbekistan"
+              "away": "Uzbekistan",
+              "date": "2026-06-23",
+              "venue": "Houston Stadium"
             },
             {
               "home": "Colombia",
-              "away": "DR Congo"
+              "away": "Congo DR",
+              "date": "2026-06-23",
+              "venue": "Estadio Guadalajara"
             }
           ]
         },
@@ -477,12 +605,16 @@
           "matchday": 3,
           "matches": [
             {
-              "home": "Portugal",
-              "away": "DR Congo"
+              "home": "Congo DR",
+              "away": "Uzbekistan",
+              "date": "2026-06-27",
+              "venue": "Atlanta Stadium"
             },
             {
               "home": "Colombia",
-              "away": "Uzbekistan"
+              "away": "Portugal",
+              "date": "2026-06-27",
+              "venue": "Miami Stadium"
             }
           ]
         }
@@ -495,12 +627,16 @@
           "matchday": 1,
           "matches": [
             {
-              "home": "England",
-              "away": "Croatia"
+              "home": "Ghana",
+              "away": "Panama",
+              "date": "2026-06-17",
+              "venue": "Toronto Stadium"
             },
             {
-              "home": "Ghana",
-              "away": "Panama"
+              "home": "England",
+              "away": "Croatia",
+              "date": "2026-06-17",
+              "venue": "Dallas Stadium"
             }
           ]
         },
@@ -509,11 +645,15 @@
           "matches": [
             {
               "home": "England",
-              "away": "Ghana"
+              "away": "Ghana",
+              "date": "2026-06-23",
+              "venue": "Boston Stadium"
             },
             {
-              "home": "Croatia",
-              "away": "Panama"
+              "home": "Panama",
+              "away": "Croatia",
+              "date": "2026-06-23",
+              "venue": "Toronto Stadium"
             }
           ]
         },
@@ -521,12 +661,16 @@
           "matchday": 3,
           "matches": [
             {
-              "home": "England",
-              "away": "Panama"
+              "home": "Panama",
+              "away": "England",
+              "date": "2026-06-27",
+              "venue": "Philadelphia Stadium"
             },
             {
               "home": "Croatia",
-              "away": "Ghana"
+              "away": "Ghana",
+              "date": "2026-06-27",
+              "venue": "New York New Jersey Stadium"
             }
           ]
         }
