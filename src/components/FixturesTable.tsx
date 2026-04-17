@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Match } from '../types'
 import type { ScoresMap } from '../hooks/usePredictions'
 import { TeamWithFlag } from './TeamWithFlag'
@@ -23,6 +23,9 @@ function buildDrafts(matches: Match[], scores: ScoresMap): Record<string, { home
 
 export function FixturesTable({ matches, scores, onScoreChange }: Props) {
   const [drafts, setDrafts] = useState(() => buildDrafts(matches, scores))
+  /** Row that contains a focused score input; drives highlight so it matches what the user is editing. */
+  const [focusedMatchId, setFocusedMatchId] = useState<string | null>(null)
+  const prevScoresRef = useRef<ScoresMap | null>(null)
 
   const matchdaysOrdered = useMemo(() => {
     const map = new Map<number, Match[]>()
@@ -39,21 +42,56 @@ export function FixturesTable({ matches, scores, onScoreChange }: Props) {
     return m?.id ?? null
   }, [matches, scores])
 
-  const focusHome = (matchId: string) => {
-    document.getElementById(`${matchId}-home`)?.focus()
-  }
+  const matchesInDisplayOrder = useMemo(
+    () => matchdaysOrdered.flatMap(([, list]) => list),
+    [matchdaysOrdered],
+  )
+
+  /** After both goals are entered, move focus to the next open fixture in list order. */
+  useEffect(() => {
+    if (prevScoresRef.current === null) {
+      prevScoresRef.current = scores
+      return
+    }
+    const prev = prevScoresRef.current
+    prevScoresRef.current = scores
+
+    let justCompletedId: string | null = null
+    for (const m of matchesInDisplayOrder) {
+      if (scores[m.id] !== undefined && prev[m.id] === undefined) {
+        justCompletedId = m.id
+        break
+      }
+    }
+    if (justCompletedId === null) return
+
+    const idx = matchesInDisplayOrder.findIndex((m) => m.id === justCompletedId)
+    if (idx < 0) return
+    const next = matchesInDisplayOrder.slice(idx + 1).find((m) => scores[m.id] === undefined)
+    if (!next) return
+
+    requestAnimationFrame(() => {
+      document.getElementById(`${next.id}-home`)?.focus()
+    })
+  }, [scores, matchesInDisplayOrder])
 
   const renderRow = (m: Match) => {
     const d = drafts[m.id] ?? { home: '', away: '' }
-    const hasScore = scores[m.id] !== undefined
-    const isHighlight = m.id === firstIncompleteId
-    const isPrimaryCta = isHighlight && !hasScore
+    const isActiveRow =
+      focusedMatchId === m.id || (focusedMatchId === null && m.id === firstIncompleteId)
+    const isHighlight = isActiveRow
 
     return (
       <div
         key={m.id}
         className={`fixture-row${isHighlight ? ' fixture-row--highlight' : ''}`}
         role="listitem"
+        onFocus={() => setFocusedMatchId(m.id)}
+        onBlur={(e) => {
+          if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
+            setFocusedMatchId(null)
+          }
+        }}
       >
         <div className="fixture-row__main">
           <div className="fixture-row__team fixture-row__team--home">
@@ -104,13 +142,6 @@ export function FixturesTable({ matches, scores, onScoreChange }: Props) {
             <TeamWithFlag name={m.away} />
           </div>
         </div>
-        <button
-          type="button"
-          className={isPrimaryCta ? 'fixture-cta fixture-cta--primary' : 'fixture-cta fixture-cta--muted'}
-          onClick={() => focusHome(m.id)}
-        >
-          {hasScore ? 'Enter score' : 'Predict'}
-        </button>
       </div>
     )
   }

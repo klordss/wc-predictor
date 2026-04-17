@@ -176,7 +176,10 @@ export function KnockoutBracketView({
 
   return (
     <div className="ko-bracket-view">
-      <p className="ko-bracket-view__hint">Scroll horizontally on small screens. Scores sync with the by-round view.</p>
+      <p className="ko-bracket-view__hint">
+        This bracket is wide — swipe sideways to reach every score, or switch to <strong>By round</strong> above for a
+        single-column layout on phones. Scores stay in sync.
+      </p>
       <div className="ko-bracket-scroll">
         <div className="ko-bracket" aria-label="Knockout bracket">
           <div className="ko-bracket__half ko-bracket__half--left">
