@@ -20,6 +20,7 @@ export function generateFixtures(groups: GroupEntry[]): Match[] {
           matchday: md.matchday,
           ...(pair.date !== undefined ? { date: pair.date } : {}),
           ...(pair.venue !== undefined ? { venue: pair.venue } : {}),
+          ...(pair.kickoffCt !== undefined ? { kickoffCt: pair.kickoffCt } : {}),
         })
       }
     }

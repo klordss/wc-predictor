@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import type { Match } from '../types'
 import type { ScoresMap } from '../hooks/usePredictions'
+import { formatKickoffTexas, kickoffTexasDateLine } from '../lib/kickoff'
 import { TeamWithFlag } from './TeamWithFlag'
 
 type Props = {
@@ -127,6 +128,8 @@ export function FixturesTable({ matches, scores, onScoreChange }: Props) {
       matchdayMatches.map((x) => x.date).filter((x): x is string => Boolean(x)),
     )
     const showChipDate = Boolean(m.date) && distinctDates.size > 1
+    const texasDateLine = m.kickoffCt ? kickoffTexasDateLine(m.kickoffCt) : null
+    const showVenueStrip = Boolean(m.venue || showChipDate || m.kickoffCt)
 
     return (
       <div
@@ -140,17 +143,27 @@ export function FixturesTable({ matches, scores, onScoreChange }: Props) {
           }
         }}
       >
-        {m.venue || showChipDate ? (
+        {showVenueStrip ? (
           <div
             className={`fixture-row__venue${showChipDate && !m.venue ? ' fixture-row__venue--dateonly' : ''}`}
             aria-label={m.venue ? `Venue: ${m.venue}` : undefined}
           >
             {m.venue ? <span className="fixture-row__venue-stadium">{m.venue}</span> : null}
-            {showChipDate && m.date ? (
-              <time className="fixture-row__venue-date" dateTime={m.date}>
-                {formatMatchChipDate(m.date)}
-              </time>
-            ) : null}
+            <div className="fixture-row__venue-meta">
+              {showChipDate && m.date ? (
+                <time className="fixture-row__venue-date" dateTime={m.date}>
+                  {formatMatchChipDate(m.date)}
+                </time>
+              ) : null}
+              {texasDateLine ? (
+                <span className="fixture-row__venue-date">{texasDateLine}</span>
+              ) : null}
+              {m.kickoffCt ? (
+                <time className="fixture-row__venue-time" dateTime={m.kickoffCt}>
+                  {formatKickoffTexas(m.kickoffCt)}
+                </time>
+              ) : null}
+            </div>
           </div>
         ) : null}
         <div className="fixture-row__main">

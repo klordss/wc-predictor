@@ -4,6 +4,8 @@ export type ScheduledPair = {
   /** ISO date YYYY-MM-DD from the official schedule */
   date?: string
   venue?: string
+  /** Kickoff in US Central Time (Texas), ISO 8601 with offset (CDT −05:00 in June). */
+  kickoffCt?: string
 }
 
 export type MatchdayBlock = {
@@ -24,6 +26,7 @@ export type Match = {
   matchday: number
   date?: string
   venue?: string
+  kickoffCt?: string
 }
 
 export type MatchScore = {
