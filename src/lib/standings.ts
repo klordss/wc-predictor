@@ -66,60 +66,103 @@ function aggregateStats(
   return map
 }
 
-function compareOverall(a: Pick<Agg, 'pts' | 'gd' | 'gf'>, b: Pick<Agg, 'pts' | 'gd' | 'gf'>): number {
-  if (b.pts !== a.pts) return b.pts - a.pts
-  if (b.gd !== a.gd) return b.gd - a.gd
-  if (b.gf !== a.gf) return b.gf - a.gf
-  return 0
+function scoreValue(team: string, key: 'pts' | 'gd' | 'gf', map: Map<string, Agg>): number {
+  const s = map.get(team)
+  if (!s) return 0
+  return s[key]
 }
 
-function allSameOverall(block: string[], stats: Map<string, Agg>): boolean {
-  if (block.length <= 1) return true
-  const ref = stats.get(block[0])!
-  return block.every((t) => compareOverall(stats.get(t)!, ref) === 0)
+function matchesWithin(teams: string[], matches: Match[]): Match[] {
+  return matches.filter((m) => teams.includes(m.home) && teams.includes(m.away))
 }
 
-/**
- * FIFA-style order within a group: points → GD → GF → head-to-head among tied teams
- * (same mini-league rules), then name as a stand-in for fair play / drawing of lots.
- */
-export function orderTeamsInGroup(
+function orderByCriteria(
   teams: string[],
-  relevantMatches: Match[],
+  groupMatches: Match[],
   scores: Record<string, MatchScore | undefined>,
-  depth = 0,
+  overall: Map<string, Agg>,
+  criterionIndex: number,
 ): string[] {
   if (teams.length <= 1) return [...teams]
-  if (depth > 8) return [...teams].sort((a, b) => a.localeCompare(b))
 
-  const stats = aggregateStats(teams, relevantMatches, scores)
-  const sorted = [...teams].sort((t1, t2) => {
-    const c = compareOverall(stats.get(t1)!, stats.get(t2)!)
-    if (c !== 0) return c
-    return t1.localeCompare(t2)
+  // 0-2: head-to-head for this exact tied subset (recomputed on every tie stage)
+  // 3-4: overall group stats
+  // 5: deterministic fallback (name)
+  if (criterionIndex >= 5) return [...teams].sort((a, b) => a.localeCompare(b))
+
+  let currentStats: Map<string, Agg>
+  let metric: 'pts' | 'gd' | 'gf'
+
+  if (criterionIndex <= 2) {
+    const internal = matchesWithin(teams, groupMatches)
+    currentStats = aggregateStats(teams, internal, scores)
+    metric = criterionIndex === 0 ? 'pts' : criterionIndex === 1 ? 'gd' : 'gf'
+  } else {
+    currentStats = overall
+    metric = criterionIndex === 3 ? 'gd' : 'gf'
+  }
+
+  const sorted = [...teams].sort((a, b) => {
+    const diff = scoreValue(b, metric, currentStats) - scoreValue(a, metric, currentStats)
+    if (diff !== 0) return diff
+    return a.localeCompare(b)
   })
 
   const out: string[] = []
   let i = 0
   while (i < sorted.length) {
     let j = i + 1
-    const si = stats.get(sorted[i])!
-    while (j < sorted.length && compareOverall(si, stats.get(sorted[j])!) === 0) {
-      j += 1
-    }
-
+    const value = scoreValue(sorted[i], metric, currentStats)
+    while (j < sorted.length && scoreValue(sorted[j], metric, currentStats) === value) j += 1
     const block = sorted.slice(i, j)
     if (block.length === 1) {
       out.push(block[0])
     } else {
-      const internal = relevantMatches.filter((m) => block.includes(m.home) && block.includes(m.away))
-      const mini = aggregateStats(block, internal, scores)
+      out.push(...orderByCriteria(block, groupMatches, scores, overall, criterionIndex + 1))
+    }
+    i = j
+  }
+  return out
+}
 
-      if (internal.length === 0 || allSameOverall(block, mini)) {
-        out.push(...[...block].sort((a, b) => a.localeCompare(b)))
-      } else {
-        out.push(...orderTeamsInGroup(block, internal, scores, depth + 1))
-      }
+/**
+ * Order within a group:
+ * 1) overall points
+ * 2) head-to-head points among tied teams
+ * 3) head-to-head goal difference among tied teams
+ * 4) head-to-head goals scored among tied teams
+ * 5) overall goal difference
+ * 6) overall goals scored
+ * 7) name as deterministic fallback for unresolved ties
+ */
+export function orderTeamsInGroup(
+  teams: string[],
+  relevantMatches: Match[],
+  scores: Record<string, MatchScore | undefined>,
+): string[] {
+  if (teams.length <= 1) return [...teams]
+
+  const overall = aggregateStats(teams, relevantMatches, scores)
+  const byPoints = [...teams].sort((a, b) => {
+    const diff = scoreValue(b, 'pts', overall) - scoreValue(a, 'pts', overall)
+    if (diff !== 0) return diff
+    return a.localeCompare(b)
+  })
+
+  const out: string[] = []
+  let i = 0
+  while (i < byPoints.length) {
+    let j = i + 1
+    const points = scoreValue(byPoints[i], 'pts', overall)
+    while (j < byPoints.length && scoreValue(byPoints[j], 'pts', overall) === points) {
+      j += 1
+    }
+
+    const block = byPoints.slice(i, j)
+    if (block.length === 1) {
+      out.push(block[0])
+    } else {
+      out.push(...orderByCriteria(block, relevantMatches, scores, overall, 0))
     }
     i = j
   }

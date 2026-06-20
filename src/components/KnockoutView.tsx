@@ -1,11 +1,12 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { KoInputDrafts } from '../hooks/useKnockoutScores'
 import type { PartialGroupPodiums } from '../lib/groupQualifiers'
+import { formatKoSchedule } from '../lib/koSchedule'
 import { buildFullKnockoutState, type KoRowState, type R32RowState } from '../lib/knockoutEngine'
+import { teamFlagCode } from '../lib/teamFlagCode'
 import type { RankedThird } from '../lib/thirdPlace'
 import type { MatchScore } from '../types'
 import { KnockoutBracketView } from './KnockoutBracketView'
-import { TeamWithFlag } from './TeamWithFlag'
 
 type Row = KoRowState | R32RowState
 
@@ -43,21 +44,29 @@ function buildDrafts(
 function KoSide({
   team,
   slotLabel,
+  align = 'start',
 }: {
   team: string | null
   slotLabel: string
+  align?: 'start' | 'end'
 }) {
+  const hint = slotLabel.replace(/^Group ([A-L]) (1st|2nd|3rd)$/i, 'Group $1 · $2')
+  const cls = `ko-side ko-side--${align}`
   if (team) {
+    const flagCode = teamFlagCode(team)
     return (
-      <div className="ko-side">
-        <TeamWithFlag name={team} />
-        <span className="ko-slot-hint">{slotLabel}</span>
+      <div className={cls}>
+        <span className={`fi fi-${flagCode} fis ko-side__flag`} role="img" aria-label={`${team} flag`} />
+        <div className="ko-side__labels">
+          <span className="ko-side__name">{team}</span>
+          <span className="ko-slot-hint">{hint}</span>
+        </div>
       </div>
     )
   }
   return (
-    <div className="ko-side ko-side--placeholder">
-      <span className="ko-slot-placeholder">{slotLabel}</span>
+    <div className={`${cls} ko-side--placeholder`}>
+      <span className="ko-slot-placeholder">{hint}</span>
     </div>
   )
 }
@@ -99,13 +108,19 @@ function KoRoundBlock({
           const ak = `${row.id}-a`
           const dh = drafts[hk] ?? ''
           const da = drafts[ak] ?? ''
+          const schedule = formatKoSchedule(row)
           return (
             <div key={row.id} className="ko-match" role="listitem">
               <div className="ko-match__meta">
-                {'fifaMatch' in row && row.fifaMatch != null ? `Match ${row.fifaMatch}` : `M${row.match}`}
+                {'fifaMatch' in row && row.fifaMatch != null ? `MATCH ${row.fifaMatch}` : `MATCH ${row.match}`}
+              </div>
+              <div className="ko-schedule ko-schedule--round">
+                <span className="ko-schedule__chip ko-schedule__chip--venue">{schedule.venue}</span>
+                <span className="ko-schedule__chip">{schedule.date}</span>
+                <span className="ko-schedule__chip">{schedule.time}</span>
               </div>
               <div className="ko-match__row">
-                <KoSide team={row.home} slotLabel={row.labelHome} />
+                <KoSide team={row.home} slotLabel={row.labelHome} align="start" />
                 <div className="ko-match__scores">
                   <input
                     className="fixture-score-input"
@@ -137,7 +152,7 @@ function KoRoundBlock({
                     }}
                   />
                 </div>
-                <KoSide team={row.away} slotLabel={row.labelAway} />
+                <KoSide team={row.away} slotLabel={row.labelAway} align="end" />
               </div>
               {row.isDraw ? (
                 <p className="ko-match__warn">Enter unequal scores — knockouts need a winner in this predictor.</p>
@@ -208,6 +223,12 @@ export function KnockoutView({
 
   const [activeTab, setActiveTab] = useState<KoStageTab>('r32')
   const [layoutMode, setLayoutMode] = useState<'rounds' | 'bracket'>('rounds')
+
+  useEffect(() => {
+    if (window.matchMedia('(max-width: 768px)').matches) {
+      setLayoutMode('rounds')
+    }
+  }, [])
 
   return (
     <div className="knockout-view" key={koRevision}>

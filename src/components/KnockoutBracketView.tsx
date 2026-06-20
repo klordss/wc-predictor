@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import type { KoInputDrafts } from '../hooks/useKnockoutScores'
+import { formatKoSchedule } from '../lib/koSchedule'
 import type { KoRowState, R32RowState } from '../lib/knockoutEngine'
 import type { MatchScore } from '../types'
 import { TeamWithFlag } from './TeamWithFlag'
@@ -46,15 +47,16 @@ function BracketSlot({
   label: string
   compact?: boolean
 }) {
+  const cls = `ko-bracket-slot${compact ? ' ko-bracket-slot--compact' : ''}${team ? '' : ' ko-bracket-slot--empty'}`
   if (team) {
     return (
-      <div className={`ko-bracket-slot${compact ? ' ko-bracket-slot--compact' : ''}`}>
+      <div className={cls}>
         <TeamWithFlag name={team} />
       </div>
     )
   }
   return (
-    <div className={`ko-bracket-slot ko-bracket-slot--empty${compact ? ' ko-bracket-slot--compact' : ''}`}>
+    <div className={cls}>
       <span className="ko-bracket-slot__ph">{label}</span>
     </div>
   )
@@ -74,6 +76,8 @@ function BracketMatchCard({
   size?: 'sm' | 'md'
 }) {
   const { h, a } = bracketInputValues(row, koScores, koDrafts)
+  const schedule = formatKoSchedule(row)
+  const scheduleLine = `${schedule.date} • ${schedule.time}`
   const meta = (() => {
     if ('fifaMatch' in row && row.fifaMatch != null) return `${row.fifaMatch}`
     if ('round' in row) {
@@ -89,8 +93,11 @@ function BracketMatchCard({
 
   return (
     <div className={`ko-bracket-card ko-bracket-card--${size}`}>
-      <div className="ko-bracket-card__meta">{meta}</div>
-      <div className="ko-bracket-card__teams">
+      <div className="ko-bracket-card__meta-badge">{meta}</div>
+      <div className={`ko-bracket-card__schedule ko-bracket-card__schedule--${size}`}>
+        <div className="ko-bracket-card__schedule-pill ko-bracket-card__schedule-pill--venue">{schedule.venue}</div>
+      </div>
+      <div className="ko-bracket-card__game">
         <BracketSlot team={row.home} label={row.labelHome} compact={size === 'sm'} />
         <div className="ko-bracket-card__scores">
           <input
@@ -121,12 +128,8 @@ function BracketMatchCard({
         </div>
         <BracketSlot team={row.away} label={row.labelAway} compact={size === 'sm'} />
       </div>
+      <div className="ko-bracket-card__datetime">{scheduleLine}</div>
       {row.isDraw ? <p className="ko-bracket-card__warn">Need a winner</p> : null}
-      {row.winner && row.home && row.away ? (
-        <p className="ko-bracket-card__win">
-          → <strong>{row.winner}</strong>
-        </p>
-      ) : null}
     </div>
   )
 }
@@ -252,20 +255,20 @@ export function KnockoutBracketView({
           </div>
 
           <div className="ko-bracket__spine">
-            <div className="ko-bracket__spine-third">
-              <span className="ko-bracket__col-label">3rd</span>
+            <div className="ko-bracket__spine-final">
+              <span className="ko-bracket__col-label">Final</span>
               <BracketMatchCard
-                row={third}
+                row={final}
                 koScores={koScores}
                 koDrafts={koDrafts}
                 setKoScore={setKoScore}
                 size="md"
               />
             </div>
-            <div className="ko-bracket__spine-final">
-              <span className="ko-bracket__col-label">Final</span>
+            <div className="ko-bracket__spine-third">
+              <span className="ko-bracket__col-label">3rd</span>
               <BracketMatchCard
-                row={final}
+                row={third}
                 koScores={koScores}
                 koDrafts={koDrafts}
                 setKoScore={setKoScore}

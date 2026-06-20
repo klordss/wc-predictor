@@ -4,51 +4,59 @@
   "stage": "Knockout",
   "format": "32 teams single elimination",
   "roundOf32": [
-    { "match": 1, "fifaMatch": 73, "teamA": "Group A 2nd", "teamB": "Group B 2nd" },
-    { "match": 2, "fifaMatch": 74, "teamA": "Group E 1st", "teamB": "3rd Group A/B/C/D/F" },
-    { "match": 3, "fifaMatch": 75, "teamA": "Group F 1st", "teamB": "Group C 2nd" },
-    { "match": 4, "fifaMatch": 76, "teamA": "Group C 1st", "teamB": "Group F 2nd" },
-    { "match": 5, "fifaMatch": 77, "teamA": "Group I 1st", "teamB": "3rd Group C/D/F/G/H" },
-    { "match": 6, "fifaMatch": 78, "teamA": "Group E 2nd", "teamB": "Group I 2nd" },
-    { "match": 7, "fifaMatch": 79, "teamA": "Group A 1st", "teamB": "3rd Group C/E/F/H/I" },
-    { "match": 8, "fifaMatch": 80, "teamA": "Group L 1st", "teamB": "3rd Group E/H/I/J/K" },
-    { "match": 9, "fifaMatch": 81, "teamA": "Group D 1st", "teamB": "3rd Group B/E/F/I/J" },
-    { "match": 10, "fifaMatch": 82, "teamA": "Group G 1st", "teamB": "3rd Group A/E/H/I/J" },
-    { "match": 11, "fifaMatch": 83, "teamA": "Group K 2nd", "teamB": "Group L 2nd" },
-    { "match": 12, "fifaMatch": 84, "teamA": "Group H 1st", "teamB": "Group J 2nd" },
-    { "match": 13, "fifaMatch": 85, "teamA": "Group B 1st", "teamB": "3rd Group E/F/G/I/J" },
-    { "match": 14, "fifaMatch": 86, "teamA": "Group J 1st", "teamB": "Group H 2nd" },
-    { "match": 15, "fifaMatch": 87, "teamA": "Group K 1st", "teamB": "3rd Group D/E/I/J/L" },
-    { "match": 16, "fifaMatch": 88, "teamA": "Group D 2nd", "teamB": "Group G 2nd" }
+    { "match": 1, "fifaMatch": 73, "teamA": "Group A 2nd", "teamB": "Group B 2nd", "date": "2026-06-28", "venue": "Los Angeles Stadium", "kickoffCt": "2026-06-28T14:00:00-05:00" },
+    { "match": 2, "fifaMatch": 74, "teamA": "Group E 1st", "teamB": "3rd Group A/B/C/D/F", "date": "2026-06-29", "venue": "Boston Stadium", "kickoffCt": "2026-06-29T15:30:00-05:00" },
+    { "match": 3, "fifaMatch": 75, "teamA": "Group F 1st", "teamB": "Group C 2nd", "date": "2026-06-29", "venue": "Estadio Monterrey", "kickoffCt": "2026-06-29T20:00:00-05:00" },
+    { "match": 4, "fifaMatch": 76, "teamA": "Group C 1st", "teamB": "Group F 2nd", "date": "2026-06-29", "venue": "Houston Stadium", "kickoffCt": "2026-06-29T12:00:00-05:00" },
+    { "match": 5, "fifaMatch": 77, "teamA": "Group I 1st", "teamB": "3rd Group C/D/F/G/H", "date": "2026-06-30", "venue": "New York New Jersey Stadium", "kickoffCt": "2026-06-30T16:00:00-05:00" },
+    { "match": 6, "fifaMatch": 78, "teamA": "Group E 2nd", "teamB": "Group I 2nd", "date": "2026-06-30", "venue": "Dallas Stadium", "kickoffCt": "2026-06-30T12:00:00-05:00" },
+    { "match": 7, "fifaMatch": 79, "teamA": "Group A 1st", "teamB": "3rd Group C/E/F/H/I", "date": "2026-06-30", "venue": "Mexico City Stadium", "kickoffCt": "2026-06-30T20:00:00-05:00" },
+    { "match": 8, "fifaMatch": 80, "teamA": "Group L 1st", "teamB": "3rd Group E/H/I/J/K", "date": "2026-07-01", "venue": "Atlanta Stadium", "kickoffCt": "2026-07-01T11:00:00-05:00" },
+    { "match": 9, "fifaMatch": 81, "teamA": "Group D 1st", "teamB": "3rd Group B/E/F/I/J", "date": "2026-07-01", "venue": "San Francisco Bay Area Stadium", "kickoffCt": "2026-07-01T19:00:00-05:00" },
+    { "match": 10, "fifaMatch": 82, "teamA": "Group G 1st", "teamB": "3rd Group A/E/H/I/J", "date": "2026-07-01", "venue": "Seattle Stadium", "kickoffCt": "2026-07-01T15:00:00-05:00" },
+    { "match": 11, "fifaMatch": 83, "teamA": "Group K 2nd", "teamB": "Group L 2nd", "date": "2026-07-02", "venue": "Toronto Stadium", "kickoffCt": "2026-07-02T18:00:00-05:00" },
+    { "match": 12, "fifaMatch": 84, "teamA": "Group H 1st", "teamB": "Group J 2nd", "date": "2026-07-02", "venue": "Los Angeles Stadium", "kickoffCt": "2026-07-02T14:00:00-05:00" },
+    { "match": 13, "fifaMatch": 85, "teamA": "Group B 1st", "teamB": "3rd Group E/F/G/I/J", "date": "2026-07-02", "venue": "BC Place Vancouver", "kickoffCt": "2026-07-02T22:00:00-05:00" },
+    { "match": 14, "fifaMatch": 86, "teamA": "Group J 1st", "teamB": "Group H 2nd", "date": "2026-07-03", "venue": "Miami Stadium", "kickoffCt": "2026-07-03T17:00:00-05:00" },
+    { "match": 15, "fifaMatch": 87, "teamA": "Group K 1st", "teamB": "3rd Group D/E/I/J/L", "date": "2026-07-03", "venue": "Kansas City Stadium", "kickoffCt": "2026-07-03T20:30:00-05:00" },
+    { "match": 16, "fifaMatch": 88, "teamA": "Group D 2nd", "teamB": "Group G 2nd", "date": "2026-07-03", "venue": "Dallas Stadium", "kickoffCt": "2026-07-03T13:00:00-05:00" }
   ],
   "roundOf16": [
-    { "match": 1, "teamA": "W1", "teamB": "W3" },
-    { "match": 2, "teamA": "W2", "teamB": "W5" },
-    { "match": 3, "teamA": "W4", "teamB": "W6" },
-    { "match": 4, "teamA": "W7", "teamB": "W8" },
-    { "match": 5, "teamA": "W11", "teamB": "W12" },
-    { "match": 6, "teamA": "W9", "teamB": "W10" },
-    { "match": 7, "teamA": "W14", "teamB": "W16" },
-    { "match": 8, "teamA": "W13", "teamB": "W15" }
+    { "match": 1, "fifaMatch": 89, "teamA": "W1", "teamB": "W3", "date": "2026-07-04", "venue": "Philadelphia Stadium", "kickoffCt": "2026-07-04T16:00:00-05:00" },
+    { "match": 2, "fifaMatch": 90, "teamA": "W2", "teamB": "W5", "date": "2026-07-04", "venue": "Houston Stadium", "kickoffCt": "2026-07-04T12:00:00-05:00" },
+    { "match": 3, "fifaMatch": 91, "teamA": "W4", "teamB": "W6", "date": "2026-07-05", "venue": "New York New Jersey Stadium", "kickoffCt": "2026-07-05T15:00:00-05:00" },
+    { "match": 4, "fifaMatch": 92, "teamA": "W7", "teamB": "W8", "date": "2026-07-05", "venue": "Mexico City Stadium", "kickoffCt": "2026-07-05T19:00:00-05:00" },
+    { "match": 5, "fifaMatch": 93, "teamA": "W11", "teamB": "W12", "date": "2026-07-06", "venue": "Dallas Stadium", "kickoffCt": "2026-07-06T14:00:00-05:00" },
+    { "match": 6, "fifaMatch": 94, "teamA": "W9", "teamB": "W10", "date": "2026-07-06", "venue": "Seattle Stadium", "kickoffCt": "2026-07-06T19:00:00-05:00" },
+    { "match": 7, "fifaMatch": 95, "teamA": "W14", "teamB": "W16", "date": "2026-07-07", "venue": "Atlanta Stadium", "kickoffCt": "2026-07-07T11:00:00-05:00" },
+    { "match": 8, "fifaMatch": 96, "teamA": "W13", "teamB": "W15", "date": "2026-07-07", "venue": "BC Place Vancouver", "kickoffCt": "2026-07-07T15:00:00-05:00" }
   ],
   "quarterFinals": [
-    { "match": 1, "teamA": "R16W2", "teamB": "R16W1" },
-    { "match": 2, "teamA": "R16W5", "teamB": "R16W6" },
-    { "match": 3, "teamA": "R16W3", "teamB": "R16W4" },
-    { "match": 4, "teamA": "R16W7", "teamB": "R16W8" }
+    { "match": 1, "fifaMatch": 97, "teamA": "R16W2", "teamB": "R16W1", "date": "2026-07-09", "venue": "Boston Stadium", "kickoffCt": "2026-07-09T15:00:00-05:00" },
+    { "match": 2, "fifaMatch": 98, "teamA": "R16W5", "teamB": "R16W6", "date": "2026-07-10", "venue": "Los Angeles Stadium", "kickoffCt": "2026-07-10T14:00:00-05:00" },
+    { "match": 3, "fifaMatch": 99, "teamA": "R16W3", "teamB": "R16W4", "date": "2026-07-11", "venue": "Miami Stadium", "kickoffCt": "2026-07-11T16:00:00-05:00" },
+    { "match": 4, "fifaMatch": 100, "teamA": "R16W7", "teamB": "R16W8", "date": "2026-07-11", "venue": "Kansas City Stadium", "kickoffCt": "2026-07-11T20:00:00-05:00" }
   ],
   "semiFinals": [
-    { "match": 1, "teamA": "QF1", "teamB": "QF2" },
-    { "match": 2, "teamA": "QF3", "teamB": "QF4" }
+    { "match": 1, "fifaMatch": 101, "teamA": "QF1", "teamB": "QF2", "date": "2026-07-14", "venue": "Dallas Stadium", "kickoffCt": "2026-07-14T14:00:00-05:00" },
+    { "match": 2, "fifaMatch": 102, "teamA": "QF3", "teamB": "QF4", "date": "2026-07-15", "venue": "Atlanta Stadium", "kickoffCt": "2026-07-15T14:00:00-05:00" }
   ],
   "final": {
     "match": 1,
+    "fifaMatch": 104,
     "teamA": "SF1 Winner",
-    "teamB": "SF2 Winner"
+    "teamB": "SF2 Winner",
+    "date": "2026-07-19",
+    "venue": "New York New Jersey Stadium",
+    "kickoffCt": "2026-07-19T14:00:00-05:00"
   },
   "thirdPlace": {
     "match": 1,
+    "fifaMatch": 103,
     "teamA": "SF1 Loser",
-    "teamB": "SF2 Loser"
+    "teamB": "SF2 Loser",
+    "date": "2026-07-18",
+    "venue": "Miami Stadium",
+    "kickoffCt": "2026-07-18T16:00:00-05:00"
   }
 }

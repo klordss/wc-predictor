@@ -145,6 +145,9 @@ export type R32RowState = {
   match: number
   /** FIFA schedule number (73–88) when known. */
   fifaMatch?: number
+  date?: string
+  venue?: string
+  kickoffCt?: string
   labelHome: string
   labelAway: string
   home: string | null
@@ -171,11 +174,11 @@ export function buildR32Rows(
     const score = koScores[id]
     const win = winnerFromScore(score, home, away)
     const isDraw = Boolean(score && home && away && score.home === score.away)
-    const fifaMatch = 'fifaMatch' in row && typeof row.fifaMatch === 'number' ? row.fifaMatch : undefined
+    const schedule = readKoScheduleMeta(row)
     rows.push({
       id,
       match: m,
-      fifaMatch,
+      ...schedule,
       labelHome: row.teamA,
       labelAway: row.teamB,
       home,
@@ -217,6 +220,10 @@ export type KoRowState = {
   id: string
   round: string
   match: number
+  fifaMatch?: number
+  date?: string
+  venue?: string
+  kickoffCt?: string
   labelHome: string
   labelAway: string
   home: string | null
@@ -224,6 +231,24 @@ export type KoRowState = {
   winner: string | null
   score?: MatchScore
   isDraw: boolean
+}
+
+type KoScheduleMeta = {
+  fifaMatch?: number
+  date?: string
+  venue?: string
+  kickoffCt?: string
+}
+
+function readKoScheduleMeta(row: unknown): KoScheduleMeta {
+  if (typeof row !== 'object' || row === null) return {}
+  const rec = row as Record<string, unknown>
+  return {
+    fifaMatch: typeof rec.fifaMatch === 'number' ? rec.fifaMatch : undefined,
+    date: typeof rec.date === 'string' ? rec.date : undefined,
+    venue: typeof rec.venue === 'string' ? rec.venue : undefined,
+    kickoffCt: typeof rec.kickoffCt === 'string' ? rec.kickoffCt : undefined,
+  }
 }
 
 export function buildFullKnockoutState(
@@ -251,10 +276,12 @@ export function buildFullKnockoutState(
     const score = koScores[id]
     const winner = winnerFromScore(score, home, away)
     const isDraw = Boolean(score && home && away && score.home === score.away)
+    const schedule = readKoScheduleMeta(row)
     return {
       id,
       round: 'Round of 16',
       match: m,
+      ...schedule,
       labelHome: row.teamA,
       labelAway: row.teamB,
       home,
@@ -277,10 +304,12 @@ export function buildFullKnockoutState(
     const score = koScores[id]
     const winner = winnerFromScore(score, home, away)
     const isDraw = Boolean(score && home && away && score.home === score.away)
+    const schedule = readKoScheduleMeta(row)
     return {
       id,
       round: 'Quarter-finals',
       match: m,
+      ...schedule,
       labelHome: row.teamA,
       labelAway: row.teamB,
       home,
@@ -303,10 +332,12 @@ export function buildFullKnockoutState(
     const score = koScores[id]
     const winner = winnerFromScore(score, home, away)
     const isDraw = Boolean(score && home && away && score.home === score.away)
+    const schedule = readKoScheduleMeta(row)
     return {
       id,
       round: 'Semi-finals',
       match: m,
+      ...schedule,
       labelHome: row.teamA,
       labelAway: row.teamB,
       home,
@@ -332,10 +363,12 @@ export function buildFullKnockoutState(
   const finalId = koIdFinal()
   const finalScore = koScores[finalId]
   const finalWinner = winnerFromScore(finalScore, finalHome, finalAway)
+  const finalSchedule = readKoScheduleMeta(f)
   const finalRow: KoRowState = {
     id: finalId,
     round: 'Final',
     match: f.match,
+    ...finalSchedule,
     labelHome: f.teamA,
     labelAway: f.teamB,
     home: finalHome,
@@ -353,10 +386,12 @@ export function buildFullKnockoutState(
   const thirdId = koIdThird()
   const thirdScore = koScores[thirdId]
   const thirdWinner = winnerFromScore(thirdScore, thirdHome, thirdAway)
+  const thirdSchedule = readKoScheduleMeta(t)
   const thirdRow: KoRowState = {
     id: thirdId,
     round: 'Third place',
     match: t.match,
+    ...thirdSchedule,
     labelHome: t.teamA,
     labelAway: t.teamB,
     home: thirdHome,
