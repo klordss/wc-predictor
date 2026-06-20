@@ -129,6 +129,11 @@ function BracketMatchCard({
         <BracketSlot team={row.away} label={row.labelAway} compact={size === 'sm'} />
       </div>
       <div className="ko-bracket-card__datetime">{scheduleLine}</div>
+      {row.winner && row.home && row.away ? (
+        <p className="ko-bracket-card__win">
+          Winner: <strong>{row.winner}</strong>
+        </p>
+      ) : null}
       {row.isDraw ? <p className="ko-bracket-card__warn">Need a winner</p> : null}
     </div>
   )
@@ -257,6 +262,9 @@ export function KnockoutBracketView({
           <div className="ko-bracket__spine">
             <div className="ko-bracket__spine-final">
               <span className="ko-bracket__col-label">Final</span>
+              <p className="ko-bracket__champion" role="status" aria-live="polite">
+                Champion: <strong>{final.winner ?? 'TBD'}</strong>
+              </p>
               <BracketMatchCard
                 row={final}
                 koScores={koScores}
