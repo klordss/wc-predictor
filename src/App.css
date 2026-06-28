@@ -1133,6 +1133,55 @@
   flex-shrink: 0;
 }
 
+.ko-match__scores--draw {
+  padding: 0.18rem 0.35rem;
+  border-radius: 10px;
+  border: 1px solid rgba(234, 179, 8, 0.75);
+  background: rgba(234, 179, 8, 0.08);
+  box-shadow: 0 0 0 1px rgba(234, 179, 8, 0.28);
+}
+
+.ko-penalties {
+  margin: 0.52rem auto 0.14rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.1rem;
+  width: 100%;
+  max-width: 12rem;
+  box-sizing: border-box;
+  min-height: 2.9rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 10px;
+  border: 1px solid var(--wc-border);
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.ko-penalties__row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+}
+
+.ko-penalties__label {
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--wc-muted);
+  line-height: 1;
+  margin-top: 0;
+}
+
+.ko-penalties__input {
+  width: 1.8rem;
+  padding: 0.24rem 0.12rem;
+  min-height: 1.45rem;
+  border-radius: 8px;
+}
+
 .ko-match__scores .fixture-score-input {
   width: 2.1rem;
   min-height: 2rem;
@@ -1161,9 +1210,10 @@
 }
 
 .ko-match__warn {
-  margin: 0.62rem 0 0;
-  font-size: 0.75rem;
-  color: var(--wc-gold);
+  margin: 0.4rem 0 0;
+  font-size: 0.68rem;
+  color: var(--wc-muted);
+  text-align: center;
 }
 
 .ko-match__winner {
@@ -1683,12 +1733,53 @@
   padding: 0.24rem 0;
 }
 
+.ko-bracket-card__pens {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.08rem;
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 3rem;
+  margin: 0.12rem auto 0.18rem;
+  padding: 0.34rem 0.28rem 0.08rem;
+  border-radius: 10px;
+  border: 1px solid var(--wc-border);
+  background: rgba(0, 0, 0, 0.14);
+}
+
+.ko-bracket-card__pens-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 0.24rem;
+}
+
+.ko-bracket-card__pens-label {
+  font-size: 0.46rem;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--wc-muted);
+  margin-top: 0.02rem;
+}
+
 .ko-bracket-card__colon {
   color: var(--wc-gold);
   font-weight: 700;
   font-size: 0.95rem;
   font-variant-numeric: tabular-nums;
   text-shadow: none;
+}
+
+.ko-bracket-score--pen {
+  width: 1.35rem;
+  min-height: 1.3rem;
+  font-size: 0.64rem;
+  padding: 0.12rem 0.06rem;
+  border-radius: 7px;
 }
 
 .ko-bracket-score {

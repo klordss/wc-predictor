@@ -30,12 +30,19 @@ function bracketInputValues(
   row: AnyKoRow,
   koScores: Record<string, MatchScore | undefined>,
   koDrafts: KoInputDrafts,
-): { h: string; a: string } {
+): { h: string; a: string; ph: string; pa: string } {
   const d = koDrafts[row.id]
-  if (d) return { h: d.h, a: d.a }
+  if (d) return { h: d.h, a: d.a, ph: d.ph, pa: d.pa }
   const s = koScores[row.id]
-  if (s !== undefined) return { h: String(s.home), a: String(s.away) }
-  return { h: '', a: '' }
+  if (s !== undefined) {
+    return {
+      h: String(s.home),
+      a: String(s.away),
+      ph: s.penHome !== undefined ? String(s.penHome) : '',
+      pa: s.penAway !== undefined ? String(s.penAway) : '',
+    }
+  }
+  return { h: '', a: '', ph: '', pa: '' }
 }
 
 function BracketSlot({
@@ -72,10 +79,11 @@ function BracketMatchCard({
   row: AnyKoRow
   koScores: Record<string, MatchScore | undefined>
   koDrafts: KoInputDrafts
-  setKoScore: (id: string, home: string, away: string) => void
+  setKoScore: (id: string, home: string, away: string, penHome?: string, penAway?: string) => void
   size?: 'sm' | 'md'
 }) {
-  const { h, a } = bracketInputValues(row, koScores, koDrafts)
+  const { h, a, ph, pa } = bracketInputValues(row, koScores, koDrafts)
+  const showPens = h !== '' && a !== '' && h === a
   const schedule = formatKoSchedule(row)
   const scheduleLine = `${schedule.date} • ${schedule.time}`
   const meta = (() => {
@@ -109,7 +117,7 @@ function BracketMatchCard({
             value={h}
             onChange={(e) => {
               const home = e.target.value
-              setKoScore(row.id, home, a)
+              setKoScore(row.id, home, a, ph, pa)
             }}
           />
           <span className="ko-bracket-card__colon">:</span>
@@ -122,19 +130,45 @@ function BracketMatchCard({
             value={a}
             onChange={(e) => {
               const away = e.target.value
-              setKoScore(row.id, h, away)
+              setKoScore(row.id, h, away, ph, pa)
             }}
           />
         </div>
         <BracketSlot team={row.away} label={row.labelAway} compact={size === 'sm'} />
       </div>
+      {showPens ? (
+        <div className="ko-bracket-card__pens">
+          <div className="ko-bracket-card__pens-row">
+            <input
+              className="ko-bracket-score ko-bracket-score--pen"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              maxLength={2}
+              aria-label={`${row.labelHome} penalties`}
+              value={ph}
+              onChange={(e) => setKoScore(row.id, h, a, e.target.value, pa)}
+            />
+            <span className="ko-bracket-card__colon">:</span>
+            <input
+              className="ko-bracket-score ko-bracket-score--pen"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              maxLength={2}
+              aria-label={`${row.labelAway} penalties`}
+              value={pa}
+              onChange={(e) => setKoScore(row.id, h, a, ph, e.target.value)}
+            />
+          </div>
+          <span className="ko-bracket-card__pens-label">Pens</span>
+        </div>
+      ) : null}
       <div className="ko-bracket-card__datetime">{scheduleLine}</div>
       {row.winner && row.home && row.away ? (
         <p className="ko-bracket-card__win">
           Winner: <strong>{row.winner}</strong>
         </p>
       ) : null}
-      {row.isDraw ? <p className="ko-bracket-card__warn">Need a winner</p> : null}
+      {row.isDraw ? <p className="ko-bracket-card__warn">Tie game: enter pens</p> : null}
     </div>
   )
 }
@@ -160,7 +194,7 @@ type Props = {
   third: KoRowState
   koScores: Record<string, MatchScore | undefined>
   koDrafts: KoInputDrafts
-  setKoScore: (id: string, home: string, away: string) => void
+  setKoScore: (id: string, home: string, away: string, penHome?: string, penAway?: string) => void
 }
 
 export function KnockoutBracketView({

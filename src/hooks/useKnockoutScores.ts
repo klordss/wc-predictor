@@ -6,7 +6,7 @@ const STORAGE_KEY = 'wc-predictor-2026-knockout'
 export type KnockoutScoresMap = Record<string, MatchScore | undefined>
 
 /** In-progress home/away strings so inputs are not cleared while typing. */
-export type KoInputDrafts = Record<string, { h: string; a: string }>
+export type KoInputDrafts = Record<string, { h: string; a: string; ph: string; pa: string }>
 
 type PersistedV2 = {
   scores: KnockoutScoresMap
@@ -27,7 +27,14 @@ function sanitizeScores(raw: unknown): KnockoutScoresMap {
     ) {
       const s = v as MatchScore
       if (Number.isInteger(s.home) && Number.isInteger(s.away) && s.home >= 0 && s.away >= 0) {
-        out[k] = { home: s.home, away: s.away }
+        const penHomeValid =
+          typeof s.penHome === 'number' && Number.isInteger(s.penHome) && Number.isFinite(s.penHome) && s.penHome >= 0
+        const penAwayValid =
+          typeof s.penAway === 'number' && Number.isInteger(s.penAway) && Number.isFinite(s.penAway) && s.penAway >= 0
+        out[k] =
+          penHomeValid && penAwayValid
+            ? { home: s.home, away: s.away, penHome: s.penHome, penAway: s.penAway }
+            : { home: s.home, away: s.away }
       }
     }
   }
@@ -41,7 +48,9 @@ function sanitizeDrafts(raw: unknown): KoInputDrafts {
     if (v && typeof v === 'object' && 'h' in v && 'a' in v) {
       const h = String((v as { h: unknown }).h)
       const a = String((v as { a: unknown }).a)
-      out[k] = { h, a }
+      const ph = 'ph' in v ? String((v as { ph: unknown }).ph) : ''
+      const pa = 'pa' in v ? String((v as { pa: unknown }).pa) : ''
+      out[k] = { h, a, ph, pa }
     }
   }
   return out
@@ -76,7 +85,7 @@ export function useKnockoutScores() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(payload))
   }, [koScores, koDrafts])
 
-  const setKoScore = useCallback((matchId: string, home: string, away: string) => {
+  const setKoScore = useCallback((matchId: string, home: string, away: string, penHome = '', penAway = '') => {
     const parse = (s: string): number | undefined => {
       const t = s.trim()
       if (t === '') return undefined
@@ -87,22 +96,39 @@ export function useKnockoutScores() {
 
     const h = parse(home)
     const a = parse(away)
+    const ph = parse(penHome)
+    const pa = parse(penAway)
     const homeEmpty = home.trim() === ''
     const awayEmpty = away.trim() === ''
+    const penHomeEmpty = penHome.trim() === ''
+    const penAwayEmpty = penAway.trim() === ''
+    const regularDraw = h !== undefined && a !== undefined && h === a
 
     setKoDrafts((prev) => {
-      if (homeEmpty && awayEmpty) {
+      if (homeEmpty && awayEmpty && penHomeEmpty && penAwayEmpty) {
         const next = { ...prev }
         delete next[matchId]
         return next
       }
-      return { ...prev, [matchId]: { h: home, a: away } }
+      return {
+        ...prev,
+        [matchId]: {
+          h: home,
+          a: away,
+          ph: regularDraw ? penHome : '',
+          pa: regularDraw ? penAway : '',
+        },
+      }
     })
 
     setKoScores((prev) => {
       const next = { ...prev }
       if (h !== undefined && a !== undefined) {
-        next[matchId] = { home: h, away: a }
+        if (regularDraw && ph !== undefined && pa !== undefined) {
+          next[matchId] = { home: h, away: a, penHome: ph, penAway: pa }
+        } else {
+          next[matchId] = { home: h, away: a }
+        }
       } else {
         delete next[matchId]
       }

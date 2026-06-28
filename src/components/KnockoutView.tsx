@@ -17,7 +17,7 @@ type Props = {
   rankedThirds: RankedThird[]
   koScores: Record<string, MatchScore | undefined>
   koDrafts: KoInputDrafts
-  setKoScore: (matchId: string, home: string, away: string) => void
+  setKoScore: (matchId: string, home: string, away: string, penHome?: string, penAway?: string) => void
   koRevision: number
 }
 
@@ -32,10 +32,14 @@ function buildDrafts(
     if (d) {
       out[`${r.id}-h`] = d.h
       out[`${r.id}-a`] = d.a
+      out[`${r.id}-ph`] = d.ph
+      out[`${r.id}-pa`] = d.pa
     } else {
       const s = koScores[r.id]
       out[`${r.id}-h`] = s !== undefined ? String(s.home) : ''
       out[`${r.id}-a`] = s !== undefined ? String(s.away) : ''
+      out[`${r.id}-ph`] = s?.penHome !== undefined ? String(s.penHome) : ''
+      out[`${r.id}-pa`] = s?.penAway !== undefined ? String(s.penAway) : ''
     }
   }
   return out
@@ -83,7 +87,7 @@ function KoRoundBlock({
   rows: Row[]
   koScores: Record<string, MatchScore | undefined>
   koDrafts: KoInputDrafts
-  setKoScore: (id: string, h: string, a: string) => void
+  setKoScore: (id: string, h: string, a: string, ph?: string, pa?: string) => void
   /** When inside tabs, the tab label is visible; keep a screen-reader heading only. */
   hideTitle?: boolean
 }) {
@@ -106,8 +110,14 @@ function KoRoundBlock({
         {rows.map((row) => {
           const hk = `${row.id}-h`
           const ak = `${row.id}-a`
+          const phk = `${row.id}-ph`
+          const pak = `${row.id}-pa`
           const dh = drafts[hk] ?? ''
           const da = drafts[ak] ?? ''
+          const dph = drafts[phk] ?? ''
+          const dpa = drafts[pak] ?? ''
+          const showPens = dh !== '' && da !== '' && dh === da
+          const isRegularTimeDraw = Boolean(row.score && row.home && row.away && row.score.home === row.score.away)
           const schedule = formatKoSchedule(row)
           return (
             <div key={row.id} className="ko-match" role="listitem">
@@ -121,7 +131,7 @@ function KoRoundBlock({
               </div>
               <div className="ko-match__row">
                 <KoSide team={row.home} slotLabel={row.labelHome} align="start" />
-                <div className="ko-match__scores">
+                <div className={`ko-match__scores${isRegularTimeDraw ? ' ko-match__scores--draw' : ''}`}>
                   <input
                     className="fixture-score-input"
                     inputMode="numeric"
@@ -133,7 +143,7 @@ function KoRoundBlock({
                     onChange={(e) => {
                       const home = e.target.value
                       const away = da
-                      setKoScore(row.id, home, away)
+                      setKoScore(row.id, home, away, dph, dpa)
                     }}
                   />
                   <span className="ko-match__colon">:</span>
@@ -148,14 +158,42 @@ function KoRoundBlock({
                     onChange={(e) => {
                       const away = e.target.value
                       const home = dh
-                      setKoScore(row.id, home, away)
+                      setKoScore(row.id, home, away, dph, dpa)
                     }}
                   />
                 </div>
                 <KoSide team={row.away} slotLabel={row.labelAway} align="end" />
               </div>
+              {showPens ? (
+                <div className="ko-penalties">
+                  <div className="ko-penalties__row">
+                    <input
+                      className="fixture-score-input ko-penalties__input"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      maxLength={2}
+                      placeholder="—"
+                      aria-label={`${row.labelHome} penalties`}
+                      value={dph}
+                      onChange={(e) => setKoScore(row.id, dh, da, e.target.value, dpa)}
+                    />
+                    <span className="ko-match__colon">:</span>
+                    <input
+                      className="fixture-score-input ko-penalties__input"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                      maxLength={2}
+                      placeholder="—"
+                      aria-label={`${row.labelAway} penalties`}
+                      value={dpa}
+                      onChange={(e) => setKoScore(row.id, dh, da, dph, e.target.value)}
+                    />
+                  </div>
+                  <span className="ko-penalties__label">Penalties</span>
+                </div>
+              ) : null}
               {row.isDraw ? (
-                <p className="ko-match__warn">Enter unequal scores — knockouts need a winner in this predictor.</p>
+                <p className="ko-match__warn">Draw in regular time: enter penalties to decide the winner.</p>
               ) : null}
               {row.winner && row.home && row.away ? (
                 <p className="ko-match__winner">
@@ -180,7 +218,7 @@ function SingleKoCard({
   row: KoRowState
   koScores: Record<string, MatchScore | undefined>
   koDrafts: KoInputDrafts
-  setKoScore: (id: string, h: string, a: string) => void
+  setKoScore: (id: string, h: string, a: string, ph?: string, pa?: string) => void
   hideTitle?: boolean
 }) {
   return (

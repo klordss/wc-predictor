@@ -32,6 +32,9 @@ export type Match = {
 export type MatchScore = {
   home: number
   away: number
+  /** Knockout-only tiebreaker when regulation score is level. */
+  penHome?: number
+  penAway?: number
 }
 
 export type StandingRow = {

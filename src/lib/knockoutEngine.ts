@@ -38,6 +38,10 @@ export function winnerFromScore(
   if (!score || home === null || away === null) return null
   if (score.home > score.away) return home
   if (score.away > score.home) return away
+  if (typeof score.penHome === 'number' && typeof score.penAway === 'number') {
+    if (score.penHome > score.penAway) return home
+    if (score.penAway > score.penHome) return away
+  }
   return null
 }
 
@@ -49,6 +53,10 @@ export function loserFromScore(
   if (!score || home === null || away === null) return null
   if (score.home > score.away) return away
   if (score.away > score.home) return home
+  if (typeof score.penHome === 'number' && typeof score.penAway === 'number') {
+    if (score.penHome > score.penAway) return away
+    if (score.penAway > score.penHome) return home
+  }
   return null
 }
 
@@ -296,7 +304,7 @@ export function buildR32Rows(
     const id = koIdR32(m)
     const score = koScores[id]
     const win = winnerFromScore(score, home, away)
-    const isDraw = Boolean(score && home && away && score.home === score.away)
+    const isDraw = isKnockoutDecisionMissing(score, home, away)
     const schedule = readKoScheduleMeta(row)
     rows.push({
       id,
@@ -374,6 +382,14 @@ function readKoScheduleMeta(row: unknown): KoScheduleMeta {
   }
 }
 
+function isKnockoutDecisionMissing(
+  score: MatchScore | undefined,
+  home: string | null,
+  away: string | null,
+): boolean {
+  return Boolean(score && home && away && winnerFromScore(score, home, away) === null)
+}
+
 export function buildFullKnockoutState(
   podium: PartialGroupPodiums,
   rankedThirds: RankedThird[],
@@ -398,7 +414,7 @@ export function buildFullKnockoutState(
     const id = koIdR16(m)
     const score = koScores[id]
     const winner = winnerFromScore(score, home, away)
-    const isDraw = Boolean(score && home && away && score.home === score.away)
+    const isDraw = isKnockoutDecisionMissing(score, home, away)
     const schedule = readKoScheduleMeta(row)
     return {
       id,
@@ -426,7 +442,7 @@ export function buildFullKnockoutState(
     const id = koIdQf(m)
     const score = koScores[id]
     const winner = winnerFromScore(score, home, away)
-    const isDraw = Boolean(score && home && away && score.home === score.away)
+    const isDraw = isKnockoutDecisionMissing(score, home, away)
     const schedule = readKoScheduleMeta(row)
     return {
       id,
@@ -454,7 +470,7 @@ export function buildFullKnockoutState(
     const id = koIdSf(m)
     const score = koScores[id]
     const winner = winnerFromScore(score, home, away)
-    const isDraw = Boolean(score && home && away && score.home === score.away)
+    const isDraw = isKnockoutDecisionMissing(score, home, away)
     const schedule = readKoScheduleMeta(row)
     return {
       id,
@@ -498,7 +514,7 @@ export function buildFullKnockoutState(
     away: finalAway,
     winner: finalWinner,
     score: finalScore,
-    isDraw: Boolean(finalScore && finalHome && finalAway && finalScore.home === finalScore.away),
+    isDraw: isKnockoutDecisionMissing(finalScore, finalHome, finalAway),
   }
 
   const t = knockoutData.thirdPlace
@@ -521,7 +537,7 @@ export function buildFullKnockoutState(
     away: thirdAway,
     winner: thirdWinner,
     score: thirdScore,
-    isDraw: Boolean(thirdScore && thirdHome && thirdAway && thirdScore.home === thirdScore.away),
+    isDraw: isKnockoutDecisionMissing(thirdScore, thirdHome, thirdAway),
   }
 
   return { r32: r32Rows, r16: r16Rows, qf: qfRows, sf: sfRows, final: finalRow, third: thirdRow }
