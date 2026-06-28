@@ -126,13 +126,41 @@ function matchThirdsToSlots(teams: RankedThird[], slots: R32ThirdSlot[]): Map<nu
 const R32_THIRD_OVERRIDE_BY_COMBINATION: Record<string, Partial<Record<string, string>>> = {
   BDEFGHJK: {
     A: 'E',
+    B: 'J',
     D: 'B',
     E: 'D',
-    G: 'G',
+    G: 'I',
     I: 'F',
-    K: 'K',
+    K: 'L',
     L: 'H',
   },
+}
+
+const R32_BASE_ALLOCATION: Partial<Record<string, string>> = {
+  A: 'ThirdPlaceGroupE',
+  B: 'ThirdPlaceGroupJ',
+  C: 'RunnerUpGroupF',
+  D: 'ThirdPlaceGroupB',
+  E: 'ThirdPlaceGroupD',
+  F: 'RunnerUpGroupC',
+  G: 'ThirdPlaceGroupI',
+  H: 'RunnerUpGroupJ',
+  I: 'ThirdPlaceGroupF',
+  J: 'RunnerUpGroupH',
+  K: 'ThirdPlaceGroupL',
+  L: 'ThirdPlaceGroupH',
+}
+
+const R32_ALLOCATION_OVERRIDE_BY_COMBINATION: Record<string, Partial<Record<string, string>>> = {
+  BDEFGHJK: R32_BASE_ALLOCATION,
+}
+
+function parseAllocationTarget(target: string): { kind: 'third' | 'runnerUp'; group: string } | null {
+  const third = target.match(/^ThirdPlaceGroup([A-L])$/)
+  if (third) return { kind: 'third', group: third[1] }
+  const runnerUp = target.match(/^RunnerUpGroup([A-L])$/)
+  if (runnerUp) return { kind: 'runnerUp', group: runnerUp[1] }
+  return null
 }
 
 /**
@@ -225,12 +253,46 @@ export function buildR32Rows(
 ): R32RowState[] {
   const rounds = [...knockoutData.roundOf32].sort((a, b) => a.match - b.match)
   const thirdByMatch = assignThirdsToR32Slots(rankedThirds, rounds)
+  const thirdByGroup = new Map(rankedThirds.map((t) => [t.group, t.team]))
+  const thirdGroupByTeam = new Map(rankedThirds.map((t) => [t.team, t.group]))
+  const combo = rankedThirds
+    .map((t) => t.group)
+    .sort()
+    .join('')
+  const allocationOverride = R32_ALLOCATION_OVERRIDE_BY_COMBINATION[combo] ?? R32_BASE_ALLOCATION
 
   const rows: R32RowState[] = []
   for (const row of rounds) {
     const m = row.match
+    let labelAway = row.teamB
     const home = resolveR32Slot(row.teamA, m, podium, thirdByMatch)
-    const away = resolveR32Slot(row.teamB, m, podium, thirdByMatch)
+    let away = resolveR32Slot(row.teamB, m, podium, thirdByMatch)
+
+    const winnerGroup = parseWinnerGroup(row.teamA)
+    const targetRaw = winnerGroup ? allocationOverride?.[winnerGroup] : undefined
+    const target = targetRaw ? parseAllocationTarget(targetRaw) : null
+    if (winnerGroup && target) {
+      if (target.kind === 'third') {
+        const forcedAway = thirdByGroup.get(target.group)
+        if (forcedAway) {
+          away = forcedAway
+          labelAway = `3rd Group ${target.group}`
+        }
+      } else {
+        const forcedAway = podiumForLetter(podium, target.group)?.second
+        if (forcedAway) {
+          away = forcedAway
+          labelAway = `Group ${target.group} 2nd`
+        }
+      }
+    }
+
+    // Keep the UI slot hint aligned with the actual assigned third-place team.
+    if (parseThirdEligibleGroups(row.teamB) && away) {
+      const assignedThirdGroup = thirdGroupByTeam.get(away)
+      if (assignedThirdGroup) labelAway = `3rd Group ${assignedThirdGroup}`
+    }
+
     const id = koIdR32(m)
     const score = koScores[id]
     const win = winnerFromScore(score, home, away)
@@ -241,7 +303,7 @@ export function buildR32Rows(
       match: m,
       ...schedule,
       labelHome: row.teamA,
-      labelAway: row.teamB,
+      labelAway,
       home,
       away,
       winner: win,
