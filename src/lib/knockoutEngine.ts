@@ -57,11 +57,10 @@ function podiumForLetter(podium: PartialGroupPodiums, letter: string): GroupPodi
 }
 
 type R32ThirdSlot = { match: number; eligible: string[] }
+type R32Round = { match: number; teamA: string; teamB: string }
 
 /** Every R32 tie that contains a `3rd Group …` label (FIFA uses eight such games). */
-function collectR32ThirdSlots(
-  rounds: { match: number; teamA: string; teamB: string }[],
-): R32ThirdSlot[] {
+function collectR32ThirdSlots(rounds: R32Round[]): R32ThirdSlot[] {
   const sorted = [...rounds].sort((a, b) => a.match - b.match)
   const out: R32ThirdSlot[] = []
   for (const row of sorted) {
@@ -73,17 +72,18 @@ function collectR32ThirdSlots(
   return out
 }
 
-/**
- * Assign each qualifying third to at most one R32 slot so every slot’s team is eligible for that slot.
- * Greedy “best rank first in match order” can leave a later slot empty (e.g. M82) after consuming A/E/I
- * earlier; this finds a maximum feasible matching (perfect when 8 thirds and 8 slots).
- */
-export function assignThirdsToR32Slots(
-  rankedThirds: RankedThird[],
-  rounds: { match: number; teamA: string; teamB: string }[],
-): Map<number, RankedThird> {
-  const slots = collectR32ThirdSlots(rounds)
-  const teams = rankedThirds
+function collectR32ThirdSlotsByMatch(rounds: R32Round[]): Map<number, R32ThirdSlot> {
+  const byMatch = new Map<number, R32ThirdSlot>()
+  for (const slot of collectR32ThirdSlots(rounds)) byMatch.set(slot.match, slot)
+  return byMatch
+}
+
+function parseWinnerGroup(label: string): string | null {
+  const m = label.match(/^Group ([A-L]) 1st$/)
+  return m ? m[1] : null
+}
+
+function matchThirdsToSlots(teams: RankedThird[], slots: R32ThirdSlot[]): Map<number, RankedThird> {
   if (slots.length === 0 || teams.length === 0) return new Map()
 
   let bestSize = 0
@@ -116,6 +116,67 @@ export function assignThirdsToR32Slots(
 
   dfs(0, new Set(), new Map())
   return best
+}
+
+/**
+ * Explicit override from user-provided matrix for this third-place combination.
+ * We only apply entries that target a third-place side and then fill any remaining
+ * third slots with eligibility-safe matching.
+ */
+const R32_THIRD_OVERRIDE_BY_COMBINATION: Record<string, Partial<Record<string, string>>> = {
+  BDEFGHJK: {
+    A: 'E',
+    D: 'B',
+    E: 'D',
+    G: 'G',
+    I: 'F',
+    K: 'K',
+    L: 'H',
+  },
+}
+
+/**
+ * Assign each qualifying third to at most one R32 slot so every slot’s team is eligible for that slot.
+ * Greedy “best rank first in match order” can leave a later slot empty (e.g. M82) after consuming A/E/I
+ * earlier; this finds a maximum feasible matching (perfect when 8 thirds and 8 slots).
+ */
+export function assignThirdsToR32Slots(
+  rankedThirds: RankedThird[],
+  rounds: R32Round[],
+): Map<number, RankedThird> {
+  const slots = collectR32ThirdSlots(rounds)
+  if (slots.length === 0 || rankedThirds.length === 0) return new Map()
+
+  const assigned = new Map<number, RankedThird>()
+  const teamsByGroup = new Map(rankedThirds.map((t) => [t.group, t]))
+  const slotsByMatch = collectR32ThirdSlotsByMatch(rounds)
+
+  const combo = rankedThirds
+    .map((t) => t.group)
+    .sort()
+    .join('')
+  const override = R32_THIRD_OVERRIDE_BY_COMBINATION[combo]
+
+  if (override) {
+    for (const row of rounds) {
+      const winnerGroup = parseWinnerGroup(row.teamA)
+      if (!winnerGroup) continue
+      const thirdGroup = override[winnerGroup]
+      if (!thirdGroup) continue
+      const team = teamsByGroup.get(thirdGroup)
+      const slot = slotsByMatch.get(row.match)
+      if (!team || !slot) continue
+      if (!slot.eligible.includes(thirdGroup)) continue
+      assigned.set(row.match, team)
+      teamsByGroup.delete(thirdGroup)
+    }
+  }
+
+  const remainingSlots = slots.filter((s) => !assigned.has(s.match))
+  const remainingTeams = [...teamsByGroup.values()]
+  const filled = matchThirdsToSlots(remainingTeams, remainingSlots)
+  for (const [match, team] of filled) assigned.set(match, team)
+  return assigned
 }
 
 function resolveR32Slot(
