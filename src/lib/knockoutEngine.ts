@@ -134,25 +134,25 @@ function matchThirdsToSlots(teams: RankedThird[], slots: R32ThirdSlot[]): Map<nu
 const R32_THIRD_OVERRIDE_BY_COMBINATION: Record<string, Partial<Record<string, string>>> = {
   BDEFGHJK: {
     A: 'E',
-    B: 'J',
     D: 'B',
     E: 'D',
     G: 'I',
+    H: 'J',
     I: 'F',
     K: 'L',
-    L: 'H',
+    L: 'H'
   },
 }
 
 const R32_BASE_ALLOCATION: Partial<Record<string, string>> = {
   A: 'ThirdPlaceGroupE',
-  B: 'ThirdPlaceGroupJ',
+  B: 'RunnerUpGroupJ',
   C: 'RunnerUpGroupF',
   D: 'ThirdPlaceGroupB',
   E: 'ThirdPlaceGroupD',
   F: 'RunnerUpGroupC',
   G: 'ThirdPlaceGroupI',
-  H: 'RunnerUpGroupJ',
+  H: 'ThirdPlaceGroupJ',
   I: 'ThirdPlaceGroupF',
   J: 'RunnerUpGroupH',
   K: 'ThirdPlaceGroupL',
